@@ -21,6 +21,9 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    @IBAction func passwordEntered(sender: AnyObject) {
+        signInButton(sender)
+    }
     
     func getSignInRequest(email: String, password: String) -> NSURLRequest {
         var request = NSMutableURLRequest(URL: NSURL(string: self.baseUrl + "/auth/signin")!)

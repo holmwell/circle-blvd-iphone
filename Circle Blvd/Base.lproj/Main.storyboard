@@ -41,6 +41,9 @@
                                 <rect key="frame" x="206" y="273" width="188" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <connections>
+                                    <action selector="passwordEntered:" destination="nl0-5o-qBN" eventType="editingDidEnd" id="lCs-qz-vyd"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Circle Blvd." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wHP-wq-rIx">
                                 <rect key="frame" x="0.0" y="124" width="600" height="47"/>
@@ -229,6 +232,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="snl-NN-8qf"/>
+        <segue reference="EHP-b8-3BQ"/>
     </inferredMetricsTieBreakers>
 </document>
