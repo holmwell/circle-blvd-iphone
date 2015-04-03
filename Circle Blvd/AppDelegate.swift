@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Circle Blvd
 //
-//  Created by Swing on 3/30/15.
+//  Created by Phil Manijak on 3/30/15.
 //  Copyright (c) 2015 Secret Project LLC. All rights reserved.
 //
 
@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         let navigationController = self.window!.rootViewController as UINavigationController
-        let controller = navigationController.topViewController as MasterViewController
+        let controller = navigationController.topViewController as SignInViewController
         controller.managedObjectContext = self.managedObjectContext
         return true
     }

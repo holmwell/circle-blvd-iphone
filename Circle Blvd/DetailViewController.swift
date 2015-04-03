@@ -2,7 +2,7 @@
 //  DetailViewController.swift
 //  Circle Blvd
 //
-//  Created by Swing on 3/30/15.
+//  Created by Phil Manijak on 3/30/15.
 //  Copyright (c) 2015 Secret Project LLC. All rights reserved.
 //
 
@@ -11,6 +11,8 @@ import UIKit
 class DetailViewController: UIViewController {
 
     @IBOutlet weak var detailDescriptionLabel: UILabel!
+    @IBOutlet weak var summaryLabel: UILabel!
+    @IBOutlet weak var ownerLabel: UILabel!
 
 
     var detailItem: AnyObject? {
@@ -23,8 +25,17 @@ class DetailViewController: UIViewController {
     func configureView() {
         // Update the user interface for the detail item.
         if let detail: AnyObject = self.detailItem {
+            
+            if let label = self.summaryLabel {
+                label.text = detail.valueForKey("summary") as? String
+            }
+            
+            if let label = self.ownerLabel {
+                label.text = detail.valueForKey("owner") as? String
+            }
+            
             if let label = self.detailDescriptionLabel {
-                label.text = detail.valueForKey("timeStamp")!.description
+                label.text = detail.valueForKey("longDescription") as? String
             }
         }
     }
@@ -34,6 +45,12 @@ class DetailViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
     }
+    
+//    override func viewDidLayoutSubviews() {
+//        if let label = self.detailDescriptionLabel {
+//            label.sizeToFit()
+//        }
+//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
