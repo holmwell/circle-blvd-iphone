@@ -57,6 +57,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         }
     }
     
+    // Copy a Json dictionary into a NSManagedObject Task entity
     func copyTask(source: AnyObject, destination: AnyObject) {
         destination.setValue(source["sortKey"] as Int, forKey: "sortKey")
         
@@ -102,7 +103,39 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             destination.setValue(false, forKey: "isNextMeeting")
         }
         
+        // Comments
+        if let comments = source["comments"] as? NSArray {
+            
+            let context = self.managedObjectContext
+            let commentsModel = destination.mutableOrderedSetValueForKey("comments")
 
+            // TODO: Make sure we're not deleting while something else is 
+            // changing the context. Check to see if we can wait for something
+            commentsModel.enumerateObjectsUsingBlock { (elem, index, stop) -> Void in
+                //context?.deleteObject(elem as NSManagedObject)
+                context?.deleteObject(elem as NSManagedObject)
+                return
+            }
+            
+            for comment in comments {
+                
+                var commentEntity = NSEntityDescription.insertNewObjectForEntityForName("Comment", inManagedObjectContext: self.managedObjectContext!) as? NSManagedObject
+                
+                if let entity = commentEntity {
+                    if let createdBy = comment["createdBy"] as? NSDictionary {
+                        if let author = createdBy["name"] as? String {
+                            entity.setValue(author, forKey: "authorName")
+                        }
+                    }
+
+                    if let text = comment["text"] as? String {
+                        entity.setValue(text, forKey: "text")
+                    }
+    
+                    entity.setValue(destination as Task, forKey: "task")
+                }
+            }
+        }
     }
     
     
@@ -361,8 +394,9 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                     self.configureCell(cell, atIndexPath: indexPath!)
                 }
                 else {
-                    println("PATH NOT FOUND")
-                    println(path)
+                    // TODO ...
+//                    println("PATH NOT FOUND")
+//                    println(path)
                 }
                 
                 break

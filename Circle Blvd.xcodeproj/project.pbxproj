@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1629754A1ACF49EF0092DC79 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 162975491ACF49EF0092DC79 /* Circle.swift */; };
+		1629754C1ACF4AA80092DC79 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629754B1ACF4AA80092DC79 /* Task.swift */; };
+		1629754E1ACF4B170092DC79 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629754D1ACF4B170092DC79 /* Comment.swift */; };
 		165C933A1ACE178C00D2CD5E /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165C93391ACE178C00D2CD5E /* SignInViewController.swift */; };
 		165C933C1ACE437800D2CD5E /* CirclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165C933B1ACE437800D2CD5E /* CirclesViewController.swift */; };
-		16BFDF381ACB294A00F02A58 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BFDF371ACB294A00F02A58 /* Task.swift */; };
+		16BFDF381ACB294A00F02A58 /* TaskStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BFDF371ACB294A00F02A58 /* TaskStruct.swift */; };
 		16F014311ACA63950089E95C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F014301ACA63950089E95C /* AppDelegate.swift */; };
 		16F014341ACA63950089E95C /* Circle_Blvd.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 16F014321ACA63950089E95C /* Circle_Blvd.xcdatamodeld */; };
 		16F014361ACA63950089E95C /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F014351ACA63950089E95C /* MasterViewController.swift */; };
@@ -33,9 +36,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		162975491ACF49EF0092DC79 /* Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = SOURCE_ROOT; };
+		1629754B1ACF4AA80092DC79 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		1629754D1ACF4B170092DC79 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		165C93391ACE178C00D2CD5E /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		165C933B1ACE437800D2CD5E /* CirclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CirclesViewController.swift; sourceTree = "<group>"; };
-		16BFDF371ACB294A00F02A58 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		16BFDF371ACB294A00F02A58 /* TaskStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskStruct.swift; sourceTree = "<group>"; };
 		16F0142B1ACA63950089E95C /* Circle Blvd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Circle Blvd.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		16F0142F1ACA63950089E95C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16F014301ACA63950089E95C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -106,8 +112,11 @@
 				16F0143C1ACA63950089E95C /* Images.xcassets */,
 				16F0143E1ACA63950089E95C /* LaunchScreen.xib */,
 				16F014321ACA63950089E95C /* Circle_Blvd.xcdatamodeld */,
+				1629754D1ACF4B170092DC79 /* Comment.swift */,
+				1629754B1ACF4AA80092DC79 /* Task.swift */,
+				162975491ACF49EF0092DC79 /* Circle.swift */,
 				16F0142E1ACA63950089E95C /* Supporting Files */,
-				16BFDF371ACB294A00F02A58 /* Task.swift */,
+				16BFDF371ACB294A00F02A58 /* TaskStruct.swift */,
 			);
 			path = "Circle Blvd";
 			sourceTree = "<group>";
@@ -306,11 +315,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1629754A1ACF49EF0092DC79 /* Circle.swift in Sources */,
 				165C933C1ACE437800D2CD5E /* CirclesViewController.swift in Sources */,
+				1629754C1ACF4AA80092DC79 /* Task.swift in Sources */,
 				16F014311ACA63950089E95C /* AppDelegate.swift in Sources */,
 				16F014341ACA63950089E95C /* Circle_Blvd.xcdatamodeld in Sources */,
+				1629754E1ACF4B170092DC79 /* Comment.swift in Sources */,
 				165C933A1ACE178C00D2CD5E /* SignInViewController.swift in Sources */,
-				16BFDF381ACB294A00F02A58 /* Task.swift in Sources */,
+				16BFDF381ACB294A00F02A58 /* TaskStruct.swift in Sources */,
 				16F014361ACA63950089E95C /* MasterViewController.swift in Sources */,
 				16F014381ACA63950089E95C /* DetailViewController.swift in Sources */,
 			);
