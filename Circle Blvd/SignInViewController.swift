@@ -12,107 +12,116 @@ import CoreData
 class SignInViewController: UIViewController {
     
     var managedObjectContext: NSManagedObjectContext? = nil
+    var circles: NSDictionary?
+
+    let session = NSURLSession.sharedSession()
+    let baseUrl = "https://circleblvd.org"
     
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
-    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    let session = NSURLSession.sharedSession()
-    let baseUrl = "https://circleblvd.org"
-    var isSignedIn = false
     
-    var userData: NSData?
-    var circles: NSDictionary?
+    func getSignInRequest(email: String, password: String) -> NSURLRequest {
+        var request = NSMutableURLRequest(URL: NSURL(string: self.baseUrl + "/auth/signin")!)
+        
+        request.HTTPMethod = "POST"
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let bodyStr:String = "email=" + email + "&password=" + password
+        request.HTTPBody = bodyStr.dataUsingEncoding(NSUTF8StringEncoding)
+    
+        return request
+    }
     
     @IBAction func signInButton(sender: AnyObject) {
         if let pass = self.passwordTextField {
             if let email = self.emailTextField {
                 
-                let url = NSURL(string: self.baseUrl)
-                var request = NSMutableURLRequest(URL: NSURL(string: self.baseUrl + "/auth/signin")!)
-                
-                request.HTTPMethod = "POST"
-                request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-                request.setValue("application/json", forHTTPHeaderField: "Accept")
-                
-                let bodyStr:String = "email=" + email.text + "&password=" + pass.text
-                request.HTTPBody = bodyStr.dataUsingEncoding(NSUTF8StringEncoding)
-                
-                let dataTask = session.dataTaskWithRequest(request, completionHandler: { (data: NSData!, response:NSURLResponse!,
-                    error: NSError!) -> Void in
-                    //do something
-                    let httpResponse = response as NSHTTPURLResponse
-                    if (httpResponse.statusCode == 200) {
-                        var request = NSMutableURLRequest(URL: NSURL(string: self.baseUrl + "/data/user")!)
-                        let userTask = self.session.dataTaskWithRequest(request, completionHandler: { (data: NSData!, response:NSURLResponse!,
-                            error: NSError!) -> Void in
-                            //do something
-                            let httpResponse = response as NSHTTPURLResponse
-                            if (httpResponse.statusCode == 200) {
-                                println("signed in")
-                                self.didSignIn(data)
-                                self.toSegue()
-                            }
-                            else {
-                                // TODO: Show error (network failed)
-                            }
-                        })
-                        userTask.resume()
-                    }
-                    else {
-                        // TODO: Show error (invalid login)
+                let request = getSignInRequest(email.text, password: pass.text)
+                let dataTask = session.dataTaskWithRequest(request, completionHandler: {
+                    (data: NSData!, response:NSURLResponse!, error: NSError!) -> Void in
+                    
+                    if let httpResponse = response as? NSHTTPURLResponse {
+                        if (httpResponse.statusCode == 200) {
+                            self.getUserDataAndSegue()
+                        }
+                        else {
+                            // TODO: Show error (invalid login)
+                        }
                     }
                 })
-                
                 dataTask.resume()
             }
         }
     }
     
+    // Takes the response from /data/user and saves it to our model
     func didSignIn(userResponseData: NSData) {
         
-        let json: AnyObject? = NSJSONSerialization.JSONObjectWithData(userResponseData, options: NSJSONReadingOptions(0), error: nil)
-        var jsonDict: NSDictionary = json as NSDictionary
+        let json: AnyObject? = NSJSONSerialization.JSONObjectWithData(userResponseData,
+            options: NSJSONReadingOptions(0), error: nil)
         
-        var memberships = jsonDict["memberships"] as NSArray
-        var circles: NSMutableDictionary = NSMutableDictionary()
-        for membership in memberships {
-            
-            if let circleName: AnyObject = membership["circleName"] {
-                if let circleId: AnyObject = membership["circle"] {
-                    circles.setValue(circleName as String, forKey: circleId as String)
+        if let jsonDict = json as? NSDictionary {
+            if let memberships = jsonDict["memberships"] as? NSArray {
+                var circles: NSMutableDictionary = NSMutableDictionary()
+                
+                for membership in memberships {
+                    if let circleName = membership["circleName"] as? String {
+                        if let circleId = membership["circle"] as? String {
+                            circles.setValue(circleName, forKey: circleId)
+                        }
+                    }
                 }
+                
+                self.circles = circles
             }
         }
-
-//        if (circles.count == 1) {
-//            self.performSegueWithIdentifier("toMasterSegue", sender: self)
-//        }
-        
-        self.circles = circles
-        println(circles)
     }
     
     func toSegue() {
-        println("Onward!")
+        // toSegue() is often called from a background thread (after
+        // a network request). Since performing segues from background
+        // threads leads to crashes, we dispatch it to the main queue
         dispatch_async(dispatch_get_main_queue()) {
-            self.performSegueWithIdentifier("toCirclesSegue", sender: self)
+            if let circles = self.circles {
+                if circles.count == 1 {
+                    self.performSegueWithIdentifier("toMasterSegue", sender: self)
+                }
+                else {
+                    self.performSegueWithIdentifier("toCirclesSegue", sender: self)
+                }
+            }
+            else {
+                println("Attempt to segue without circles")
+            }
         }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         super.prepareForSegue(segue, sender: sender)
         
+        // Pass data to the next controller. We want to keep the session and
+        // the data store around.
         if let segueName = segue.identifier {
             if segueName == "toMasterSegue" {
+                // We get here if we're only in one circle.
                 let dest = segue.destinationViewController as MasterViewController
                 dest.baseUrl = self.baseUrl
                 dest.session = self.session
                 dest.managedObjectContext = self.managedObjectContext
+                if let circles = circles {
+                    for circle in circles {
+                        var circleDict = NSMutableDictionary()
+                        circleDict["name"] = circle.value
+                        circleDict["id"] = circle.key
+                        dest.circle = circleDict
+                    }
+                }
             }
             else {
-                println("Prepping ...")
+                // toCirclesSegue
                 let dest = segue.destinationViewController as CirclesViewController
                 dest.baseUrl = self.baseUrl
                 dest.session = self.session
@@ -126,39 +135,37 @@ class SignInViewController: UIViewController {
     func configureView() {
 
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        self.view.hidden = true
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        self.view.hidden = false
+
+    func getUserDataAndSegue() {
+        // See if we're already signed in to Circle Blvd. It's possible that our
+        // session has been saved between runs. If /data/user returns success,
+        // that means we can continue without entering a password.
+        var request = NSMutableURLRequest(URL: NSURL(string: self.baseUrl + "/data/user")!)
+        
+        let dataTask = session.dataTaskWithRequest(request, completionHandler: {
+            (data: NSData!, response:NSURLResponse!, error: NSError!) -> Void in
+            if let response = response {
+                let httpResponse = response as NSHTTPURLResponse
+                if (httpResponse.statusCode == 200) {
+                    self.didSignIn(data)
+                    self.toSegue()
+                }
+                else {
+                    println("Server returned an error code")
+                }
+            }
+            else {
+                println("Could not access the Internet")
+            }
+        })
+        dataTask.resume()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
-        
-        var request = NSMutableURLRequest(URL: NSURL(string: self.baseUrl + "/data/user")!)
-        let dataTask = session.dataTaskWithRequest(request, completionHandler: { (data: NSData!, response:NSURLResponse!,
-            error: NSError!) -> Void in
-            //do something
-            let httpResponse = response as NSHTTPURLResponse
-            if (httpResponse.statusCode == 200) {
-                println("already signed in")
-                // TODO: There's no way this will work in the real world
-//                self.userData = data
-                self.didSignIn(data)
-                self.toSegue()
-            }
-            else {
-                println(httpResponse)
-            }
-        })
-        dataTask.resume()
+        self.getUserDataAndSegue()
     }
     
     override func didReceiveMemoryWarning() {

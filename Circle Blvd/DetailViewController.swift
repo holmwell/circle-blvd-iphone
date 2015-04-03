@@ -45,12 +45,6 @@ class DetailViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
     }
-    
-//    override func viewDidLayoutSubviews() {
-//        if let label = self.detailDescriptionLabel {
-//            label.sizeToFit()
-//        }
-//    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -31,24 +31,29 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         // Do any additional setup after loading the view, typically from a nib.
 //        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
 //        self.navigationItem.rightBarButtonItem = addButton
-        
         didGetCircle()
     }
     
     
     func didGetCircle() {
         if let circle = self.circle {
-            let circleId = circle["id"] as String
+            if let circleId = circle["id"] as? String {
+                let url = NSURL(string: baseUrl + "/data/" + circleId + "/stories");
+                let task = session?.dataTaskWithURL(url!) {(data, response, error) in
+                    if let data = data {
+                        self.didGetStories(data)
+                    }
+                    else {
+                        println("Could not get stories")
+                    }
+                }
+                task?.resume();
+            }
+            else {
+                println("Circle ID was not specified")
+            }
             
             self.title = circle["name"] as? String
-            println(self.title)
-            println(circleId)
-            
-            let url = NSURL(string: baseUrl + "/data/" + circleId + "/stories");
-            let task = session?.dataTaskWithURL(url!) {(data, response, error) in
-                self.didGetStories(data)
-            }
-            task?.resume();
         }
     }
     
@@ -172,19 +177,16 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 }
             }
         }
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        // TODO: Guarantee this is called after things are updated.
-        // It is fine with small data sets
-        let context = self.fetchedResultsController.managedObjectContext
-        var error: NSError? = nil
-        if !context.save(&error) {
-            // TODO: ...
-            abort()
+        
+        dispatch_async(dispatch_get_main_queue()) {
+            var error: NSError? = nil
+            if !context.save(&error) {
+                // TODO: ...
+                abort()
+            }
         }
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -202,25 +204,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         copyTask(task, destination: newManagedObject);
     }
     
-    func insertNewObject(sender: AnyObject) {
-        let context = self.fetchedResultsController.managedObjectContext
-        let entity = self.fetchedResultsController.fetchRequest.entity!
-        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as NSManagedObject
-             
-        // If appropriate, configure the new managed object.
-        // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-        newManagedObject.setValue(NSDate(), forKey: "timeStamp")
-             
-        // Save the context.
-        var error: NSError? = nil
-        if !context.save(&error) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            //println("Unresolved error \(error), \(error.userInfo)")
-            abort()
-        }
-    }
-
+    
     // MARK: - Segues
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -371,6 +355,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             case .Delete:
                 tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             case .Update:
+                // TODO: What is going on here?
                 let path = indexPath!
                 if let cell = tableView.cellForRowAtIndexPath(path) {
                     self.configureCell(cell, atIndexPath: indexPath!)

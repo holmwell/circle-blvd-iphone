@@ -18,8 +18,6 @@ class CirclesViewController: UITableViewController, NSFetchedResultsControllerDe
     var circles: NSDictionary?
     
     @IBOutlet var taskTableView: UITableView!
-    @IBOutlet weak var myLabel: UILabel!
-    @IBOutlet weak var selectedCell: UITableViewCell!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,13 +27,8 @@ class CirclesViewController: UITableViewController, NSFetchedResultsControllerDe
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-//        self.navigationItem.leftBarButtonItem = self.editButtonItem()
-//        
-//        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
-//        self.navigationItem.rightBarButtonItem = addButton
-//        
-//        didSignIn()
         
+        // Refresh the circles. Delete then insert.
         var error: NSError? = nil
         let context = self.fetchedResultsController.managedObjectContext
         let requestAll: NSFetchRequest = NSFetchRequest(entityName: "Circle")
@@ -62,18 +55,6 @@ class CirclesViewController: UITableViewController, NSFetchedResultsControllerDe
     }
     
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        // TODO: Guarantee this is called after things are updated.
-        // It is fine with small data sets
-        let context = self.fetchedResultsController.managedObjectContext
-        var error: NSError? = nil
-        if !context.save(&error) {
-            // TODO: ...
-            abort()
-        }
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -95,12 +76,6 @@ class CirclesViewController: UITableViewController, NSFetchedResultsControllerDe
     // MARK: - Segues
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showDetail" {
-            if let indexPath = self.tableView.indexPathForSelectedRow() {
-                let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
-                (segue.destinationViewController as DetailViewController).detailItem = object
-            }
-        }
 
         let dest = segue.destinationViewController as MasterViewController
         dest.baseUrl = self.baseUrl

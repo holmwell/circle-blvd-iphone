@@ -4,12 +4,6 @@
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="Event">
-        <attribute name="timeStamp" optional="YES" attributeType="Date">
-            <userInfo/>
-        </attribute>
-        <userInfo/>
-    </entity>
     <entity name="Task" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isMilepost" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -22,7 +16,6 @@
         <attribute name="syncStatus" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Event" positionX="261" positionY="189" width="128" height="60"/>
         <element name="Task" positionX="270" positionY="207" width="128" height="180"/>
         <element name="Circle" positionX="270" positionY="270" width="128" height="75"/>
     </elements>
