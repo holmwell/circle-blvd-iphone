@@ -17,6 +17,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     var session: NSURLSession? = nil
     var baseUrl: String = ""
     var circle: NSDictionary?
+    var profile: NSDictionary?
 
     @IBOutlet var taskTableView: UITableView!
     @IBOutlet weak var myLabel: UILabel!
@@ -256,6 +257,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 destination.detailItem = object
                 destination.baseUrl = self.baseUrl
                 destination.session = self.session
+                destination.profile = self.profile
             }
         }
     }
@@ -319,22 +321,32 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             }
         }
         
+        if let owner = object.valueForKey("owner") as? String {
+            if let profile = self.profile {
+                if let profileName = profile["name"] as? String {
+                    if (owner.compare(profileName, options: NSStringCompareOptions.CaseInsensitiveSearch) == NSComparisonResult.OrderedSame) {
+                        
+                        cell.textLabel!.textColor = UIColor(red: 0.118, green: 0.412, blue: 0.71, alpha: 1.0)
+                    }
+                }
+            }
+        }
+        
         if let status = object.valueForKey("status") as? String {
             switch status {
                 case "done":
-                    cell.backgroundColor = UIColor.purpleColor()
-                    cell.textLabel!.textColor = UIColor.whiteColor()
+                    if let text = cell.textLabel!.text {
+                        // cell.textLabel!.text = "\u{00B7} " + text
+                        cell.textLabel!.text = "\u{2022} " + text
+                    }
+
                     break
                 case "active":
-//                    cell.backgroundColor = UIColor(red: 0.0, green: 0.5, blue: 0.0, alpha: 1.0)
-//                    cell.textLabel!.textColor = UIColor.whiteColor()
                     break
             default:
                 break
             }
         }
-        
-        //
     }
 
     // MARK: - Fetched results controller

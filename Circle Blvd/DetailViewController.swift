@@ -123,6 +123,7 @@ class DetailViewController: UIViewController {
 
     var session: NSURLSession? = nil
     var baseUrl: String = ""
+    var profile: NSDictionary?
     
     func configureView() {
         // Update the user interface for the detail item.
@@ -152,6 +153,17 @@ class DetailViewController: UIViewController {
             }
             
             if let control = self.statusControl {
+                if let isMilepost = detail.valueForKey("isMilepost") as? Bool {
+                    if (isMilepost) {
+                        control.hidden = true
+                    }
+                }
+                if let isNextMeeting = detail.valueForKey("isNextMeeting") as? Bool {
+                    if (isNextMeeting) {
+                        control.hidden = true
+                    }
+                }
+                
                 if let status = detail.valueForKey("status") as? String {
                     
                     switch status {

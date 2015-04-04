@@ -16,6 +16,7 @@ class CirclesViewController: UITableViewController, NSFetchedResultsControllerDe
     var session: NSURLSession? = nil
     var baseUrl: String = ""
     var circles: NSDictionary?
+    var profile: NSDictionary?
     
     @IBOutlet var taskTableView: UITableView!
     
@@ -80,6 +81,7 @@ class CirclesViewController: UITableViewController, NSFetchedResultsControllerDe
         let dest = segue.destinationViewController as MasterViewController
         dest.baseUrl = self.baseUrl
         dest.session = self.session
+        dest.profile = self.profile
         dest.managedObjectContext = self.managedObjectContext
         
         if let indexPath = self.tableView.indexPathForSelectedRow() {

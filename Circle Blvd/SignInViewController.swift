@@ -13,6 +13,7 @@ class SignInViewController: UIViewController {
     
     var managedObjectContext: NSManagedObjectContext? = nil
     var circles: NSDictionary?
+    var profile: NSDictionary?
 
     let session = NSURLSession.sharedSession()
     let baseUrl = "https://circleblvd.org"
@@ -81,6 +82,13 @@ class SignInViewController: UIViewController {
                 
                 self.circles = circles
             }
+            
+            if let name = jsonDict["name"] as? String {
+                var profile = NSMutableDictionary()
+                profile["name"] = name
+
+                self.profile = profile
+            }
         }
     }
     
@@ -114,6 +122,7 @@ class SignInViewController: UIViewController {
                 let dest = segue.destinationViewController as MasterViewController
                 dest.baseUrl = self.baseUrl
                 dest.session = self.session
+                dest.profile = self.profile
                 dest.managedObjectContext = self.managedObjectContext
                 if let circles = circles {
                     for circle in circles {
@@ -129,6 +138,7 @@ class SignInViewController: UIViewController {
                 let dest = segue.destinationViewController as CirclesViewController
                 dest.baseUrl = self.baseUrl
                 dest.session = self.session
+                dest.profile = self.profile
                 dest.circles = self.circles
                 dest.managedObjectContext = self.managedObjectContext
             }
