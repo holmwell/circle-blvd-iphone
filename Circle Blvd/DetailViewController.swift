@@ -18,6 +18,80 @@ class DetailViewController: UIViewController {
 
     @IBOutlet weak var statusControl: UISegmentedControl!
  
+    @IBAction func statusControlAction(sender: UISegmentedControl) {
+    
+        if let task = detailItem as? Task {
+            switch sender.selectedSegmentIndex {
+            case 0:
+                task.status = "sad"
+                break
+            case 1:
+                task.status = ""
+                break
+            case 2:
+                task.status = "assigned"
+                break
+            case 3:
+                task.status = "active"
+                break
+            case 4:
+                task.status = "done"
+                break
+            default:
+                task.status = ""
+                break
+            }
+            
+            saveTask(task)
+        }
+    }
+    
+    func saveTask(task: Task) {
+        func getSaveRequest(task: Task) -> NSURLRequest {
+            var request = NSMutableURLRequest(URL: NSURL(string: self.baseUrl + "/data/story")!)
+            
+            request.HTTPMethod = "PUT"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            
+            var parameters = NSMutableDictionary()
+            parameters["id"] = task.id
+            parameters["summary"] = task.summary
+            parameters["description"] = task.longDescription?
+            parameters["owner"] = task.owner?
+            parameters["status"] = task.status?
+            parameters["projectId"] = task.circleId
+            
+            // pass dictionary to nsdata object and set it as request body
+            var err: NSError?
+            request.HTTPBody = NSJSONSerialization.dataWithJSONObject(parameters, options: nil, error: &err)
+            
+            return request
+        }
+        
+        if let session = session {
+            let request = getSaveRequest(task)
+            
+            let dataTask = session.dataTaskWithRequest(request, completionHandler: {
+                (data: NSData!, response:NSURLResponse!, error: NSError!) -> Void in
+                
+                if let httpResponse = response as? NSHTTPURLResponse {
+                    if (httpResponse.statusCode == 200) {
+                        // TODO: Show success
+                    }
+                    else {
+                        // TODO: Show error (invalid login)
+                    }
+                }
+                else {
+                    // Show error
+                }
+            })
+            dataTask.resume()
+        }
+    }
+    
+    
     @IBOutlet weak var commentsDecoration: UILabel!
     @IBOutlet weak var commentsLabel: UILabel!
     
@@ -30,6 +104,9 @@ class DetailViewController: UIViewController {
         }
     }
 
+    var session: NSURLSession? = nil
+    var baseUrl: String = ""
+    
     func configureView() {
         // Update the user interface for the detail item.
         if let detail: AnyObject = self.detailItem {

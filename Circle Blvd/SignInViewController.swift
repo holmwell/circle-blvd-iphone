@@ -16,6 +16,7 @@ class SignInViewController: UIViewController {
 
     let session = NSURLSession.sharedSession()
     let baseUrl = "https://circleblvd.org"
+//    let baseUrl = "http://localhost:3000"
     
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!

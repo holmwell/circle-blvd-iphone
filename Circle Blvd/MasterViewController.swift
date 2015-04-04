@@ -64,6 +64,14 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         destination.setValue(source["id"] as String, forKey: "id")
         destination.setValue(source["summary"] as String, forKey: "summary")
         
+        if let circleId = source["projectId"] as? String {
+            destination.setValue(circleId, forKey: "circleId")
+        }
+        
+        if let listId = source["listId"] as? String {
+            destination.setValue(listId, forKey: "listId")
+        }
+        
         if let owner = source["owner"] as? String {
             destination.setValue(owner, forKey: "owner")
         }
@@ -243,8 +251,11 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.tableView.indexPathForSelectedRow() {
-            let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
-            (segue.destinationViewController as DetailViewController).detailItem = object
+                let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
+                let destination = segue.destinationViewController as DetailViewController
+                destination.detailItem = object
+                destination.baseUrl = self.baseUrl
+                destination.session = self.session
             }
         }
     }

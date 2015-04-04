@@ -11,9 +11,11 @@
         <relationship name="task" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="comments" inverseEntity="Task" syncable="YES"/>
     </entity>
     <entity name="Task" representedClassName="Circle_Blvd.Task" syncable="YES">
+        <attribute name="circleId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isMilepost" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isNextMeeting" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="listId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="longDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="owner" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sortKey" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -24,7 +26,7 @@
     </entity>
     <elements>
         <element name="Circle" positionX="270" positionY="270" width="128" height="73"/>
-        <element name="Task" positionX="270" positionY="207" width="128" height="193"/>
         <element name="Comment" positionX="270" positionY="279" width="128" height="103"/>
+        <element name="Task" positionX="270" positionY="207" width="128" height="225"/>
     </elements>
 </model>

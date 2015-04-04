@@ -166,7 +166,7 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <segmentedControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Pya-R8-rRv">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Pya-R8-rRv">
                                 <rect key="frame" x="16" y="214" width="568" height="29"/>
                                 <segments>
                                     <segment title="Help?"/>
@@ -175,6 +175,9 @@
                                     <segment title="On it"/>
                                     <segment title="Done"/>
                                 </segments>
+                                <connections>
+                                    <action selector="statusControlAction:" destination="Ah7-4n-0Wa" eventType="valueChanged" id="G8D-Ob-h6v"/>
+                                </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Comments" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YFq-wO-bNH">
                                 <rect key="frame" x="16" y="289" width="97" height="21"/>
