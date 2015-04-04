@@ -193,6 +193,7 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="paz-aO-cc1" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="4e4-bL-Tub"/>
                             <constraint firstItem="a0L-h9-sNL" firstAttribute="top" secondItem="BAZ-E2-q1e" secondAttribute="bottom" constant="8" id="54q-jB-dr5"/>
@@ -233,8 +234,15 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lrm-kH-fPn" sceneMemberID="firstResponder"/>
+                <exit id="ErE-48-GhZ" userLabel="Exit" sceneMemberID="exit"/>
+                <swipeGestureRecognizer direction="right" id="7Ic-3X-Jb7">
+                    <connections>
+                        <action selector="swipeRight:" destination="Ah7-4n-0Wa" id="mZW-5v-Ziv"/>
+                        <segue destination="ErE-48-GhZ" kind="unwind" unwindAction="unwindToMasterViewController:" id="pCN-tX-Rq2"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1231" y="76"/>
+            <point key="canvasLocation" x="1118" y="76"/>
         </scene>
         <!--Circles-->
         <scene sceneID="8JL-vP-Td6">
@@ -284,6 +292,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="EHP-b8-3BQ"/>
+        <segue reference="snl-NN-8qf"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -10,6 +10,14 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    @IBAction func swipeRight(sender: UISwipeGestureRecognizer) {
+        
+    }
+    
+    @IBAction func unwindToMasterViewController(segue: UIStoryboardSegue) {
+        //nothing goes here
+    }
+    
     @IBOutlet weak var detailDescriptionLabel: UILabel!
     @IBOutlet weak var summaryLabel: UILabel!
     @IBOutlet weak var ownerLabel: UILabel!
