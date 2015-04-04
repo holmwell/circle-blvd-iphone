@@ -154,13 +154,13 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="&lt;Owner text&gt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eay-B4-ISV">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="&lt;Owner text&gt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eay-B4-ISV">
                                 <rect key="frame" x="31" y="122" width="553" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="@" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="paz-aO-cc1">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="@" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="paz-aO-cc1">
                                 <rect key="frame" x="16" y="123" width="16" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -194,6 +194,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="paz-aO-cc1" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="4e4-bL-Tub"/>
                             <constraint firstItem="a0L-h9-sNL" firstAttribute="top" secondItem="BAZ-E2-q1e" secondAttribute="bottom" constant="8" id="54q-jB-dr5"/>
                             <constraint firstItem="Lei-5M-9Gs" firstAttribute="trailing" secondItem="MMQ-IT-qOo" secondAttribute="trailingMargin" id="9P9-YM-ti2"/>
                             <constraint firstItem="Pya-R8-rRv" firstAttribute="top" secondItem="Lei-5M-9Gs" secondAttribute="bottom" constant="38" id="DmF-mW-rKZ"/>
@@ -208,6 +209,7 @@
                             <constraint firstItem="Pya-R8-rRv" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="pDW-45-xbw"/>
                             <constraint firstItem="eay-B4-ISV" firstAttribute="top" secondItem="uap-6c-RGK" secondAttribute="bottom" constant="8" symbolic="YES" id="psj-yk-6MJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Lei-5M-9Gs" secondAttribute="trailing" id="uCs-Zs-PTX"/>
+                            <constraint firstItem="eay-B4-ISV" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" constant="15" id="vQN-e0-zN1"/>
                             <constraint firstItem="Lei-5M-9Gs" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="x8C-z3-dke"/>
                             <constraint firstItem="uap-6c-RGK" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="xdy-BE-DLN"/>
                             <constraint firstItem="Pya-R8-rRv" firstAttribute="top" secondItem="Lei-5M-9Gs" secondAttribute="bottom" constant="8" id="xev-3P-cfL"/>
