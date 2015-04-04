@@ -46,6 +46,15 @@ class DetailViewController: UIViewController {
         }
     }
     
+    func valueOrEmptyString(optional: NSString?) -> NSString {
+        if (optional? != nil) {
+            return optional!
+        }
+        else {
+            return ""
+        }
+    }
+    
     func saveTask(task: Task) {
         func getSaveRequest(task: Task) -> NSURLRequest {
             var request = NSMutableURLRequest(URL: NSURL(string: self.baseUrl + "/data/story")!)
@@ -57,9 +66,9 @@ class DetailViewController: UIViewController {
             var parameters = NSMutableDictionary()
             parameters["id"] = task.id
             parameters["summary"] = task.summary
-            parameters["description"] = task.longDescription?
-            parameters["owner"] = task.owner?
-            parameters["status"] = task.status?
+            parameters["description"] = valueOrEmptyString(task.longDescription)
+            parameters["owner"] = valueOrEmptyString(task.owner)
+            parameters["status"] = valueOrEmptyString(task.status)
             parameters["projectId"] = task.circleId
             
             // pass dictionary to nsdata object and set it as request body
