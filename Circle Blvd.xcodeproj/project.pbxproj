@@ -7,11 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1617424A1AD1F37800678F10 /* MineCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161742491AD1F37800678F10 /* MineCircleView.swift */; };
 		1629754C1ACF4AA80092DC79 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629754B1ACF4AA80092DC79 /* Task.swift */; };
 		1629754E1ACF4B170092DC79 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629754D1ACF4B170092DC79 /* Comment.swift */; };
 		1644F3E11AD0659100E80662 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1644F3E01AD0659100E80662 /* Circle.swift */; };
 		165C933A1ACE178C00D2CD5E /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165C93391ACE178C00D2CD5E /* SignInViewController.swift */; };
 		165C933C1ACE437800D2CD5E /* CirclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165C933B1ACE437800D2CD5E /* CirclesViewController.swift */; };
+		166B21841AD0AC3C00256781 /* SessionViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166B21831AD0AC3C00256781 /* SessionViewProtocol.swift */; };
+		166B21861AD0B39E00256781 /* CircleViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166B21851AD0B39E00256781 /* CircleViewProtocol.swift */; };
+		166B21881AD0B63500256781 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166B21871AD0B63500256781 /* ListViewController.swift */; };
+		166B218A1AD0C2C400256781 /* CircleVlew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166B21891AD0C2C400256781 /* CircleVlew.swift */; };
+		166B218C1AD1E9B200256781 /* MasterViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166B218B1AD1E9B200256781 /* MasterViewController2.swift */; };
 		16BFDF381ACB294A00F02A58 /* TaskStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16BFDF371ACB294A00F02A58 /* TaskStruct.swift */; };
 		16F014311ACA63950089E95C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F014301ACA63950089E95C /* AppDelegate.swift */; };
 		16F014341ACA63950089E95C /* Circle_Blvd.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 16F014321ACA63950089E95C /* Circle_Blvd.xcdatamodeld */; };
@@ -36,11 +42,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		161742491AD1F37800678F10 /* MineCircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineCircleView.swift; sourceTree = "<group>"; };
 		1629754B1ACF4AA80092DC79 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		1629754D1ACF4B170092DC79 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		1644F3E01AD0659100E80662 /* Circle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
 		165C93391ACE178C00D2CD5E /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		165C933B1ACE437800D2CD5E /* CirclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CirclesViewController.swift; sourceTree = "<group>"; };
+		166B21831AD0AC3C00256781 /* SessionViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionViewProtocol.swift; sourceTree = "<group>"; };
+		166B21851AD0B39E00256781 /* CircleViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleViewProtocol.swift; sourceTree = "<group>"; };
+		166B21871AD0B63500256781 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		166B21891AD0C2C400256781 /* CircleVlew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleVlew.swift; sourceTree = "<group>"; };
+		166B218B1AD1E9B200256781 /* MasterViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterViewController2.swift; sourceTree = "<group>"; };
 		16BFDF371ACB294A00F02A58 /* TaskStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskStruct.swift; sourceTree = "<group>"; };
 		16F0142B1ACA63950089E95C /* Circle Blvd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Circle Blvd.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		16F0142F1ACA63950089E95C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -104,9 +116,14 @@
 			isa = PBXGroup;
 			children = (
 				16F014301ACA63950089E95C /* AppDelegate.swift */,
+				166B21831AD0AC3C00256781 /* SessionViewProtocol.swift */,
+				166B21851AD0B39E00256781 /* CircleViewProtocol.swift */,
 				165C93391ACE178C00D2CD5E /* SignInViewController.swift */,
 				165C933B1ACE437800D2CD5E /* CirclesViewController.swift */,
+				166B21871AD0B63500256781 /* ListViewController.swift */,
 				16F014351ACA63950089E95C /* MasterViewController.swift */,
+				166B21891AD0C2C400256781 /* CircleVlew.swift */,
+				161742491AD1F37800678F10 /* MineCircleView.swift */,
 				16F014371ACA63950089E95C /* DetailViewController.swift */,
 				16F014391ACA63950089E95C /* Main.storyboard */,
 				16F0143C1ACA63950089E95C /* Images.xcassets */,
@@ -117,6 +134,7 @@
 				1644F3E01AD0659100E80662 /* Circle.swift */,
 				16F0142E1ACA63950089E95C /* Supporting Files */,
 				16BFDF371ACB294A00F02A58 /* TaskStruct.swift */,
+				166B218B1AD1E9B200256781 /* MasterViewController2.swift */,
 			);
 			path = "Circle Blvd";
 			sourceTree = "<group>";
@@ -316,14 +334,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				165C933C1ACE437800D2CD5E /* CirclesViewController.swift in Sources */,
+				166B218A1AD0C2C400256781 /* CircleVlew.swift in Sources */,
 				1629754C1ACF4AA80092DC79 /* Task.swift in Sources */,
 				16F014311ACA63950089E95C /* AppDelegate.swift in Sources */,
 				16F014341ACA63950089E95C /* Circle_Blvd.xcdatamodeld in Sources */,
+				1617424A1AD1F37800678F10 /* MineCircleView.swift in Sources */,
 				1629754E1ACF4B170092DC79 /* Comment.swift in Sources */,
 				1644F3E11AD0659100E80662 /* Circle.swift in Sources */,
 				165C933A1ACE178C00D2CD5E /* SignInViewController.swift in Sources */,
 				16BFDF381ACB294A00F02A58 /* TaskStruct.swift in Sources */,
+				166B218C1AD1E9B200256781 /* MasterViewController2.swift in Sources */,
+				166B21841AD0AC3C00256781 /* SessionViewProtocol.swift in Sources */,
 				16F014361ACA63950089E95C /* MasterViewController.swift in Sources */,
+				166B21861AD0B39E00256781 /* CircleViewProtocol.swift in Sources */,
+				166B21881AD0B63500256781 /* ListViewController.swift in Sources */,
 				16F014381ACA63950089E95C /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

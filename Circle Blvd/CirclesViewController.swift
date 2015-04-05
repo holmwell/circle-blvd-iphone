@@ -10,13 +10,15 @@ import UIKit
 import CoreData
 import Foundation
 
-class CirclesViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class CirclesViewController: UITableViewController, NSFetchedResultsControllerDelegate, SessionViewProtocol {
     
     var managedObjectContext: NSManagedObjectContext? = nil
     var session: NSURLSession? = nil
-    var baseUrl: String = ""
-    var circles: NSDictionary?
+    var baseUrl: String? = ""
     var profile: NSDictionary?
+    
+    var circles: NSDictionary?
+    
     
     @IBOutlet var taskTableView: UITableView!
     
@@ -78,7 +80,7 @@ class CirclesViewController: UITableViewController, NSFetchedResultsControllerDe
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
-        let dest = segue.destinationViewController as MasterViewController
+        let dest = segue.destinationViewController as CircleViewProtocol
         dest.baseUrl = self.baseUrl
         dest.session = self.session
         dest.profile = self.profile

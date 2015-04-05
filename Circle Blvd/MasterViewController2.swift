@@ -1,27 +1,17 @@
-//
-//  MasterViewController.swift
-//  Circle Blvd
-//
-//  Created by Phil Manijak on 3/30/15.
-//  Copyright (c) 2015 Secret Project LLC. All rights reserved.
-//
-
 import UIKit
 import CoreData
 import Foundation
-import Argo
 
-class MasterViewController: UIViewController, CircleViewProtocol {
-
+// TODO: Learning how to use instances ...
+class MasterViewController2: UIViewController, CircleViewProtocol {
+    
     var session: NSURLSession?
     var baseUrl: String?
-
+    
     var profile: NSDictionary?
     var managedObjectContext: NSManagedObjectContext?
-    var circle: NSDictionary? 
+    var circle: NSDictionary?
     
-
-    @IBOutlet weak var titleItem: UINavigationItem!
     
     @IBOutlet weak var actualTableView: CircleView!
     
@@ -41,13 +31,16 @@ class MasterViewController: UIViewController, CircleViewProtocol {
             actualTableView.managedObjectContext = managedObjectContext
             actualTableView.circle = circle
             
-            // TODO: do we need to actualTableView.reloadData()?
+            actualTableView.reloadData()
+            // didGetCircle()
         }
         
         // Do any additional setup after loading the view, typically from a nib.
-//        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
-//        self.navigationItem.rightBarButtonItem = addButton
+        //        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
+        //        self.navigationItem.rightBarButtonItem = addButton
+        // didGetCircle()
     }
+    
     
     
     override func didReceiveMemoryWarning() {
@@ -55,9 +48,20 @@ class MasterViewController: UIViewController, CircleViewProtocol {
         // Dispose of any resources that can be recreated.
     }
     
+    //    func insertTask(task: NSDictionary) {
+    //        let context = self.fetchedResultsController.managedObjectContext
+    //        let entity = self.fetchedResultsController.fetchRequest.entity!
+    //
+    //        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as NSManagedObject
+    //
+    //        // If appropriate, configure the new managed object.
+    //        // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
+    //        copyTask(task, destination: newManagedObject);
+    //    }
+    
     
     // MARK: - Segues
-
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.actualTableView.indexPathForSelectedRow() {
@@ -70,5 +74,6 @@ class MasterViewController: UIViewController, CircleViewProtocol {
             }
         }
     }
+    
 }
 

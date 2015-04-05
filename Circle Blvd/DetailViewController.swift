@@ -65,7 +65,7 @@ class DetailViewController: UIViewController {
     
     func saveTask(task: Task) {
         func getSaveRequest(task: Task) -> NSURLRequest {
-            var request = NSMutableURLRequest(URL: NSURL(string: self.baseUrl + "/data/story")!)
+            var request = NSMutableURLRequest(URL: NSURL(string: self.baseUrl! + "/data/story")!)
             
             request.HTTPMethod = "PUT"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -122,7 +122,7 @@ class DetailViewController: UIViewController {
     }
 
     var session: NSURLSession? = nil
-    var baseUrl: String = ""
+    var baseUrl: String? = ""
     var profile: NSDictionary?
     
     func configureView() {
@@ -156,11 +156,13 @@ class DetailViewController: UIViewController {
                 if let isMilepost = detail.valueForKey("isMilepost") as? Bool {
                     if (isMilepost) {
                         control.hidden = true
+                        self.title = "Milepost"
                     }
                 }
                 if let isNextMeeting = detail.valueForKey("isNextMeeting") as? Bool {
                     if (isNextMeeting) {
                         control.hidden = true
+                        self.title = ""
                     }
                 }
                 
