@@ -19,6 +19,8 @@ class SignInViewController: UIViewController {
     let baseUrl = "https://circleblvd.org"
 //    let baseUrl = "http://localhost:3000"
     
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -47,7 +49,7 @@ class SignInViewController: UIViewController {
                 let request = getSignInRequest(email.text, password: pass.text)
                 let dataTask = session.dataTaskWithRequest(request, completionHandler: {
                     (data: NSData!, response:NSURLResponse!, error: NSError!) -> Void in
-                    
+
                     if let httpResponse = response as? NSHTTPURLResponse {
                         if (httpResponse.statusCode == 200) {
                             self.getUserDataAndSegue()
@@ -55,6 +57,9 @@ class SignInViewController: UIViewController {
                         else {
                             // TODO: Show error (invalid login)
                         }
+                    }
+                    else {
+                        println("No internet")
                     }
                 })
                 dataTask.resume()
@@ -81,6 +86,7 @@ class SignInViewController: UIViewController {
                 }
                 
                 self.circles = circles
+                defaults.setObject(circles, forKey: "circles")
             }
             
             if let name = jsonDict["name"] as? String {
@@ -88,7 +94,10 @@ class SignInViewController: UIViewController {
                 profile["name"] = name
 
                 self.profile = profile
+                defaults.setObject(profile, forKey: "profile")
             }
+            
+            defaults.synchronize()
         }
     }
     
@@ -119,7 +128,7 @@ class SignInViewController: UIViewController {
         if let segueName = segue.identifier {
             if segueName == "toMasterSegue" {
                 // We get here if we're only in one circle.
-                let dest = segue.destinationViewController as MasterViewController
+                let dest = segue.destinationViewController as CircleViewProtocol
                 dest.baseUrl = self.baseUrl
                 dest.session = self.session
                 dest.profile = self.profile
@@ -170,6 +179,11 @@ class SignInViewController: UIViewController {
             }
             else {
                 println("Could not access the Internet")
+                // Onward! Load defaults from last successful signin
+                self.profile = self.defaults.objectForKey("profile") as NSDictionary?
+                self.circles = self.defaults.objectForKey("circles") as NSDictionary?
+                
+                self.toSegue()
             }
         })
         dataTask.resume()

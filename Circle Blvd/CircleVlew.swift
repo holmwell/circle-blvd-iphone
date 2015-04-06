@@ -159,8 +159,13 @@ class CircleView: UITableView,
     
     func didGetStories(data: NSData) {
         println("DID GET STORIES")
+        
         // TODO: Use an error pointer
         let json: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: nil)
+        if (json == nil) {
+            println("didGetStories: No data")
+            return
+        }
         
         var jsonDict: NSDictionary = json as NSDictionary
         var firstTask: AnyObject? = NSDictionary()
