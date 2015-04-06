@@ -11,7 +11,7 @@ import CoreData
 import Foundation
 import Argo
 
-class MasterViewController: UIViewController, CircleViewProtocol {
+class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtocol {
 
     var session: NSURLSession?
     var baseUrl: String?
@@ -22,6 +22,13 @@ class MasterViewController: UIViewController, CircleViewProtocol {
     
     @IBOutlet weak var titleItem: UINavigationItem!
 
+    @IBOutlet weak var myTasksItem: UITabBarItem!
+    
+    @IBOutlet weak var allTasksItem: UITabBarItem!
+    
+    @IBOutlet weak var tabBar: UITabBar!
+    
+    
     @IBAction func myTasksAction(sender: UIBarButtonItem) {
         if let tableView = actualTableView {
             tableView.viewFilter = CircleViewFilter.MyTasks
@@ -37,16 +44,16 @@ class MasterViewController: UIViewController, CircleViewProtocol {
     }
 
     func updateTitlePrompt() {
-        if let tableView = actualTableView {
-            switch (tableView.viewFilter) {
-            case .AllTasks:
-                titleItem.prompt = nil
-                break
-            case .MyTasks:
-                titleItem.prompt = "My tasks"
-                break
-            }
-        }
+//        if let tableView = actualTableView {
+//            switch (tableView.viewFilter) {
+//            case .AllTasks:
+//                titleItem.prompt = nil
+//                break
+//            case .MyTasks:
+//                titleItem.prompt = "My tasks"
+//                break
+//            }
+//        }
     }
     
     
@@ -76,6 +83,19 @@ class MasterViewController: UIViewController, CircleViewProtocol {
                 }
             }
             
+            if let tabBar = tabBar {
+                tabBar.delegate = self
+                
+                switch tableView.viewFilter {
+                case .AllTasks:
+                    tabBar.selectedItem = allTasksItem
+                    break
+                case .MyTasks:
+                    tabBar.selectedItem = myTasksItem
+                    break
+                }
+            }
+            
             updateTitlePrompt()
         }
         
@@ -102,6 +122,15 @@ class MasterViewController: UIViewController, CircleViewProtocol {
                 destination.baseUrl = self.baseUrl
                 destination.session = self.session
                 destination.profile = self.profile
+            }
+        }
+    }
+    
+    func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
+        if let filter = CircleViewFilter(rawValue: item.tag) {
+            if let tableView = actualTableView {
+                tableView.viewFilter = filter
+                updateTitlePrompt()
             }
         }
     }

@@ -239,7 +239,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Kh-dr-Nwf">
+                            <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Kh-dr-Nwf">
                                 <rect key="frame" x="0.0" y="492" width="600" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="pUJ-Ro-eHe"/>
@@ -258,6 +258,14 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
+                            <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4e5-rc-zS5">
+                                <rect key="frame" x="0.0" y="551" width="600" height="49"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <items>
+                                    <tabBarItem tag="2" title="My tasks" id="arr-mD-AJs"/>
+                                    <tabBarItem tag="1" title="All tasks" id="Wm9-4z-WYv"/>
+                                </items>
+                            </tabBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -265,16 +273,22 @@
                             <constraint firstItem="POe-MP-oWi" firstAttribute="leading" secondItem="a1u-bw-yt9" secondAttribute="leadingMargin" constant="-16" id="3Bj-gG-jIS"/>
                             <constraint firstItem="2Kh-dr-Nwf" firstAttribute="top" secondItem="POe-MP-oWi" secondAttribute="bottom" id="78B-Kl-NRT"/>
                             <constraint firstItem="2Kh-dr-Nwf" firstAttribute="top" secondItem="POe-MP-oWi" secondAttribute="bottom" id="BNR-xa-hZm"/>
+                            <constraint firstItem="Fd5-Cb-Uzr" firstAttribute="top" secondItem="4e5-rc-zS5" secondAttribute="bottom" id="HQl-7V-cBm"/>
                             <constraint firstAttribute="trailingMargin" secondItem="2Kh-dr-Nwf" secondAttribute="trailing" constant="-16" id="I2d-dl-hlw"/>
                             <constraint firstAttribute="trailingMargin" secondItem="POe-MP-oWi" secondAttribute="trailing" constant="-16" id="MvB-BZ-aPH"/>
                             <constraint firstItem="2Kh-dr-Nwf" firstAttribute="leading" secondItem="a1u-bw-yt9" secondAttribute="leadingMargin" constant="-16" id="POG-Wt-ADS"/>
                             <constraint firstItem="Fd5-Cb-Uzr" firstAttribute="top" secondItem="2Kh-dr-Nwf" secondAttribute="bottom" id="e8H-Xx-Kzm"/>
+                            <constraint firstItem="4e5-rc-zS5" firstAttribute="leading" secondItem="a1u-bw-yt9" secondAttribute="leadingMargin" constant="-16" id="lQK-kX-Ssj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4e5-rc-zS5" secondAttribute="trailing" constant="-16" id="oAu-S9-7Q8"/>
                             <constraint firstItem="2Kh-dr-Nwf" firstAttribute="top" secondItem="POe-MP-oWi" secondAttribute="bottom" id="wwf-JH-XLt"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="zwC-of-FQr"/>
                     <connections>
                         <outlet property="actualTableView" destination="POe-MP-oWi" id="pOa-tU-SbM"/>
+                        <outlet property="allTasksItem" destination="Wm9-4z-WYv" id="GPK-oK-Wrg"/>
+                        <outlet property="myTasksItem" destination="arr-mD-AJs" id="YcU-7u-gbq"/>
+                        <outlet property="tabBar" destination="4e5-rc-zS5" id="Xtn-yq-1yA"/>
                         <outlet property="titleItem" destination="zwC-of-FQr" id="2rK-Wx-AP3"/>
                     </connections>
                 </viewController>
