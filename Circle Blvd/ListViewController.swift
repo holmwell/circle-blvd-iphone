@@ -9,7 +9,7 @@
 import CoreData
 import UIKit
 
-class ListViewController: UITabBarController, CircleViewProtocol {
+class ListViewController: UITabBarController, UITabBarControllerDelegate, CircleViewProtocol {
     
     var session: NSURLSession? {
         didSet {
@@ -21,6 +21,11 @@ class ListViewController: UITabBarController, CircleViewProtocol {
     
     var managedObjectContext: NSManagedObjectContext? = nil
     var circle: NSDictionary?
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.delegate = self
+    }
     
     override func viewDidLoad() {
         println("view did load")
@@ -42,6 +47,29 @@ class ListViewController: UITabBarController, CircleViewProtocol {
                 }
             }
         }
+        
+        if let circle = circle {
+            if let circleId = circle["id"] as? String {
+                let defaults = NSUserDefaults.standardUserDefaults()
+                // This returns 0 if the key is not found.
+                let selectedTab = defaults.integerForKey(circleId + "-selectedTab")
+                self.selectedIndex = selectedTab
+            }
+        }
+    }
+
+    
+    // Called when a new tab is selected
+    func tabBarController(tabBarController: UITabBarController,
+        didSelectViewController viewController: UIViewController) {
+            
+            if let circle = circle {
+                if let circleId = circle["id"] as? String {
+                    let defaults = NSUserDefaults.standardUserDefaults()
+                    defaults.setInteger(self.selectedIndex, forKey: circleId + "-selectedTab")
+                    defaults.synchronize()
+                }
+            }
     }
 
 }

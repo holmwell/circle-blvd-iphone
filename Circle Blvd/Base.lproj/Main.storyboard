@@ -96,7 +96,7 @@
         <!--View All-->
         <scene sceneID="7v7-We-2bc">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="lLt-HN-Wm4" userLabel="View All" customClass="MasterViewController" customModule="Circle_Blvd" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="All View" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lLt-HN-Wm4" userLabel="View All" customClass="MasterViewController" customModule="Circle_Blvd" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ueS-aR-44D"/>
                         <viewControllerLayoutGuide type="bottom" id="tmp-vx-42n"/>
@@ -160,7 +160,7 @@
         <!--View Mine-->
         <scene sceneID="Xjr-qf-Wyi">
             <objects>
-                <viewController id="HQZ-dC-xZE" userLabel="View Mine" customClass="MasterViewController" customModule="Circle_Blvd" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Mine View" useStoryboardIdentifierAsRestorationIdentifier="YES" id="HQZ-dC-xZE" userLabel="View Mine" customClass="MasterViewController" customModule="Circle_Blvd" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ll5-PJ-V5Q"/>
                         <viewControllerLayoutGuide type="bottom" id="vF0-tr-C4v"/>
@@ -223,7 +223,7 @@
         <!--List View Controller-->
         <scene sceneID="au2-zo-Oqy">
             <objects>
-                <tabBarController id="eka-eT-jeb" customClass="ListViewController" customModule="Circle_Blvd" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="Main List View" useStoryboardIdentifierAsRestorationIdentifier="YES" id="eka-eT-jeb" customClass="ListViewController" customModule="Circle_Blvd" customModuleProvider="target" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" opaque="NO" contentMode="scaleToFill" translucent="NO" id="dQe-bG-m2p">
@@ -403,7 +403,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="zvq-yS-MaF"/>
+        <segue reference="bi9-ug-15v"/>
         <segue reference="f7B-xy-eBA"/>
     </inferredMetricsTieBreakers>
 </document>
