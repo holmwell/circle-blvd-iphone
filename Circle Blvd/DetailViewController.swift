@@ -193,16 +193,21 @@ class DetailViewController: UIViewController {
             
             if let control = self.commentsLabel {
                 if let comments = (detail as? Task)?.comments {
-                    var commentString = ""
+                    var allCommentsString = ""
                     comments.enumerateObjectsUsingBlock { (comment, index, stop) -> Void in
                         
                         let comment = comment as Comment
+                        var commentString = ""
                         commentString += comment.authorName + ": "
                         commentString += comment.text
                         commentString += "\n"
+                        
+                        // prepend, to have comments show in
+                        // reverse chronilogical order
+                        allCommentsString = commentString + allCommentsString
                     }
-                    control.text = commentString
-                    if commentString == "" {
+                    control.text = allCommentsString
+                    if allCommentsString == "" {
                         self.commentsDecoration?.hidden = true
                     }
                     else {
