@@ -58,9 +58,6 @@ class CircleView: UITableView,
             else {
                 println("Circle ID was not specified")
             }
-            
-            // TODO:
-//            self.title = circle["name"] as? String
         }
         else {
             println("No circle specified in CircleView")
@@ -282,14 +279,14 @@ class CircleView: UITableView,
     // MARK: - Table View
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        println("section number")
+        // println("section number")
         return self.fetchedResultsController.sections?.count ?? 0
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        println("number")
+        // println("number")
         let sectionInfo = self.fetchedResultsController.sections![section] as NSFetchedResultsSectionInfo
-        println(sectionInfo.numberOfObjects)
+
         return sectionInfo.numberOfObjects
     }
     
@@ -375,12 +372,12 @@ class CircleView: UITableView,
     // MARK: - Fetched results controller
     
     var fetchedResultsController: NSFetchedResultsController {
-        println("fetchedResultsController")
+        // println("fetchedResultsController")
         if _fetchedResultsController != nil {
             return _fetchedResultsController!
         }
         
-        println("building fetched results controller")
+        // println("building fetched results controller")
         
         let fetchRequest = NSFetchRequest()
         // Edit the entity name as appropriate.
@@ -425,12 +422,12 @@ class CircleView: UITableView,
     var _fetchedResultsController: NSFetchedResultsController? = nil
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        println("will change content ...")
+        // println("will change content ...")
         self.beginUpdates()
     }
     
     func controller(controller: NSFetchedResultsController, didChangeSection sectionInfo: NSFetchedResultsSectionInfo, atIndex sectionIndex: Int, forChangeType type: NSFetchedResultsChangeType) {
-        println("controller ...")
+        // println("controller ...")
         switch type {
         case .Insert:
             self.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
@@ -474,7 +471,7 @@ class CircleView: UITableView,
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        println("did change content")
+        // println("did change content")
         self.endUpdates()
     }
     
