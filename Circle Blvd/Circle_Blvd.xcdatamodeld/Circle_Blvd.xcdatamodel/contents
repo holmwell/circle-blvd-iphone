@@ -22,11 +22,11 @@
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="syncStatus" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Comment" inverseName="task" inverseEntity="Comment" syncable="YES"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Comment" inverseName="task" inverseEntity="Comment" syncable="YES"/>
     </entity>
     <elements>
         <element name="Circle" positionX="270" positionY="270" width="128" height="73"/>
         <element name="Comment" positionX="270" positionY="279" width="128" height="103"/>
-        <element name="Task" positionX="270" positionY="207" width="128" height="225"/>
+        <element name="Task" positionX="270" positionY="207" width="128" height="223"/>
     </elements>
 </model>
