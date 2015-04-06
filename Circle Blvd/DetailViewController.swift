@@ -260,12 +260,13 @@ class DetailViewController: UIViewController, SessionViewProtocol {
                                 else {
                                     control.hidden = false
                                 }
+                                self.renounceOwnershipButton?.hidden = !control.hidden
                             }
                             else {
                                 control.hidden = true
+                                self.renounceOwnershipButton?.hidden = true
                             }
                             
-                            self.renounceOwnershipButton?.hidden = !control.hidden
                         }
                     }
                 }
