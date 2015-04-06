@@ -19,11 +19,25 @@ class CircleView: UITableView,
     var profile: NSDictionary?
     
     var managedObjectContext: NSManagedObjectContext? = nil
-    var circle: NSDictionary?
+    var circle: NSDictionary? {
+        didSet {
+            if let circle = circle {
+                if let circleId = circle["id"] as? String {
+                    let defaults = NSUserDefaults.standardUserDefaults()
+                    let filter = defaults.integerForKey(circleId + "-viewFilter")
+                    if let filter = CircleViewFilter(rawValue: filter) {
+                        viewFilter = filter
+                    }
+                }
+                didGetCircle()
+            }
+        }
+    }
 
     
     required init(coder aDecoder: NSCoder) {
         self.viewFilter = CircleViewFilter.AllTasks
+        
         super.init(coder: aDecoder)
         self.dataSource = self
     
@@ -377,6 +391,14 @@ class CircleView: UITableView,
                 break
             }
             
+            if let circle = circle {
+                if let circleId = circle["id"] as? String {
+                    let defaults = NSUserDefaults.standardUserDefaults()
+                    defaults.setInteger(viewFilter.rawValue, forKey: circleId + "-viewFilter")
+                    defaults.synchronize()
+                }
+            }
+
             // Cache invalidation
             _fetchedResultsController = nil
             

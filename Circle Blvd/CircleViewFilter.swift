@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Secret Project LLC. All rights reserved.
 //
 
-enum CircleViewFilter {
-    case AllTasks
-    case MyTasks
+enum CircleViewFilter: Int {
+    case AllTasks = 1, MyTasks
 }
