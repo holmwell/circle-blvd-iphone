@@ -141,7 +141,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Av-ln-T3v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-362" y="974"/>
+            <point key="canvasLocation" x="281" y="914"/>
         </scene>
         <!--View Mine-->
         <scene sceneID="Xjr-qf-Wyi">
@@ -200,7 +200,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qCD-17-MAB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="926" y="92"/>
+            <point key="canvasLocation" x="1118" y="64"/>
         </scene>
         <!--List View Controller-->
         <scene sceneID="au2-zo-Oqy">
@@ -220,7 +220,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ec5-ZK-ccL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-362" y="92"/>
+            <point key="canvasLocation" x="281" y="64"/>
         </scene>
         <!--Task detail-->
         <scene sceneID="Cn3-H9-jdl">
@@ -284,6 +284,15 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rdn-RZ-SSW">
+                                <rect key="frame" x="10" y="118" width="123" height="30"/>
+                                <state key="normal" title="Take ownership">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="takeOwnership:" destination="Ah7-4n-0Wa" eventType="touchUpInside" id="0im-gl-PIz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -299,6 +308,8 @@
                             <constraint firstItem="Lei-5M-9Gs" firstAttribute="top" secondItem="paz-aO-cc1" secondAttribute="bottom" constant="8" symbolic="YES" id="YZJ-z9-Hon"/>
                             <constraint firstItem="uap-6c-RGK" firstAttribute="top" secondItem="cIm-e0-J51" secondAttribute="bottom" constant="8" id="cEl-zT-Xrg"/>
                             <constraint firstItem="paz-aO-cc1" firstAttribute="top" secondItem="uap-6c-RGK" secondAttribute="bottom" constant="8" symbolic="YES" id="cMg-Uf-YaX"/>
+                            <constraint firstItem="rdn-RZ-SSW" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="d0i-KJ-a2j"/>
+                            <constraint firstItem="rdn-RZ-SSW" firstAttribute="top" secondItem="uap-6c-RGK" secondAttribute="bottom" constant="3" id="jIk-Jq-pjA"/>
                             <constraint firstItem="BAZ-E2-q1e" firstAttribute="top" secondItem="YFq-wO-bNH" secondAttribute="bottom" constant="8" id="jcl-iK-tkU"/>
                             <constraint firstItem="Pya-R8-rRv" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="pDW-45-xbw"/>
                             <constraint firstItem="eay-B4-ISV" firstAttribute="top" secondItem="uap-6c-RGK" secondAttribute="bottom" constant="8" symbolic="YES" id="psj-yk-6MJ"/>
@@ -324,6 +335,7 @@
                         <outlet property="ownerLabel" destination="eay-B4-ISV" id="eGg-aa-TBW"/>
                         <outlet property="statusControl" destination="Pya-R8-rRv" id="HR4-fk-Mya"/>
                         <outlet property="summaryLabel" destination="uap-6c-RGK" id="3ye-1L-EVL"/>
+                        <outlet property="takeOwnershipButton" destination="rdn-RZ-SSW" id="yuq-6o-eL1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lrm-kH-fPn" sceneMemberID="firstResponder"/>
@@ -335,7 +347,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="926" y="974"/>
+            <point key="canvasLocation" x="1118" y="914"/>
         </scene>
         <!--Circles-->
         <scene sceneID="8JL-vP-Td6">
@@ -385,7 +397,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="bi9-ug-15v"/>
         <segue reference="f7B-xy-eBA"/>
+        <segue reference="bi9-ug-15v"/>
     </inferredMetricsTieBreakers>
 </document>

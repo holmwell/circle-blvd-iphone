@@ -23,4 +23,20 @@ class Task: NSManagedObject {
     @NSManaged var summary: String
     @NSManaged var syncStatus: String?
     @NSManaged var comments: NSOrderedSet?
+    
+    func isTask() -> Bool {
+        if let isMilepost = self.isMilepost {
+            if (isMilepost == 1) {
+                return false
+            }
+        }
+        
+        if let isNextMeeting = self.isNextMeeting {
+            if (isNextMeeting == 1) {
+                return false
+            }
+        }
+        
+        return true
+    }
 }

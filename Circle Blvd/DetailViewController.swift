@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, SessionViewProtocol {
 
     @IBAction func swipeRight(sender: UISwipeGestureRecognizer) {
         
@@ -16,6 +16,20 @@ class DetailViewController: UIViewController {
     
     @IBAction func unwindToMasterViewController(segue: UIStoryboardSegue) {
         //nothing goes here
+    }
+    
+    @IBOutlet weak var takeOwnershipButton: UIButton!
+    
+    @IBAction func takeOwnership(sender: UIButton) {
+        if let profile = profile {
+            if let profileName = profile["name"] as? String {
+                if let task = detailItem as? Task {
+                    task.owner = profileName
+                    saveTask(task)
+                    self.configureView()
+                }
+            }
+        }
     }
     
     @IBOutlet weak var detailDescriptionLabel: UILabel!
@@ -216,6 +230,31 @@ class DetailViewController: UIViewController {
                 }
                 else {
                     println("Comments not cast properly")
+                }
+            }
+            
+            if let control = self.takeOwnershipButton {
+                if let profile = profile {
+                    if let profileName = profile["name"] as? String {
+                        if let task = detail as? Task {
+                            if task.isTask() {
+                                if let owner = task.owner {
+                                    if (owner.compare("", options: NSStringCompareOptions.LiteralSearch) == NSComparisonResult.OrderedSame) {
+                                        control.hidden = false
+                                    }
+                                    else {
+                                        control.hidden = true
+                                    }
+                                }
+                                else {
+                                    control.hidden = false
+                                }
+                            }
+                            else {
+                                control.hidden = true
+                            }
+                        }
+                    }
                 }
             }
         }
