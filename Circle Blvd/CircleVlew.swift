@@ -127,7 +127,6 @@ class CircleView: UITableView,
             // TODO: Make sure we're not deleting while something else is
             // changing the context. Check to see if we can wait for something
             commentsModel.enumerateObjectsUsingBlock { (elem, index, stop) -> Void in
-                //context?.deleteObject(elem as NSManagedObject)
                 context?.deleteObject(elem as NSManagedObject)
                 return
             }
@@ -160,7 +159,7 @@ class CircleView: UITableView,
     
     func didGetStories(data: NSData) {
         println("DID GET STORIES")
-        // TODO: Use an error pointer to blah blah
+        // TODO: Use an error pointer
         let json: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: nil)
         
         var jsonDict: NSDictionary = json as NSDictionary
@@ -258,22 +257,6 @@ class CircleView: UITableView,
         // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
         copyTask(task, destination: newManagedObject);
     }
-    
-    
-    // MARK: - Segues
-    
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        if segue.identifier == "showDetail" {
-//            if let indexPath = self.actualTableView.indexPathForSelectedRow() {
-//                let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
-//                let destination = segue.destinationViewController as DetailViewController
-//                destination.detailItem = object
-//                destination.baseUrl = self.baseUrl
-//                destination.session = self.session
-//                destination.profile = self.profile
-//            }
-//        }
-//    }
     
     
     // MARK: - Table View

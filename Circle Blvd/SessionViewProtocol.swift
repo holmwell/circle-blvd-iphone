@@ -14,7 +14,4 @@ import CoreData
     var session: NSURLSession? { get set }
     var baseUrl: String? { get set }
     var profile: NSDictionary? { get set }
-    
-    // var managedObjectContext: NSManagedObjectContext? { get set }
-    // var circle: NSDictionary? { get set }
 }
