@@ -262,8 +262,8 @@
                                 <rect key="frame" x="0.0" y="551" width="600" height="49"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <items>
-                                    <tabBarItem tag="2" title="My tasks" id="arr-mD-AJs"/>
-                                    <tabBarItem tag="1" title="All tasks" id="Wm9-4z-WYv"/>
+                                    <tabBarItem tag="2" title="My tasks" image="myTasks" id="arr-mD-AJs"/>
+                                    <tabBarItem tag="1" title="All tasks" image="allTasks" id="Wm9-4z-WYv"/>
                                 </items>
                             </tabBar>
                         </subviews>
@@ -504,6 +504,10 @@
             <point key="canvasLocation" x="1118" y="-874"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="allTasks" width="66" height="66"/>
+        <image name="myTasks" width="66" height="66"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="2D5-4c-A0m"/>
         <segue reference="Vfr-oS-o4m"/>
