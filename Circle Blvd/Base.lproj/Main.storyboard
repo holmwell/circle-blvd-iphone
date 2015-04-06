@@ -203,7 +203,7 @@
             </objects>
             <point key="canvasLocation" x="1118" y="64"/>
         </scene>
-        <!--Title-->
+        <!--Circle-->
         <scene sceneID="ayf-VT-yV8">
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="rcm-Bu-12T" customClass="MasterViewController" customModule="Circle_Blvd" customModuleProvider="target" sceneMemberID="viewController">
@@ -283,7 +283,13 @@
                             <constraint firstItem="2Kh-dr-Nwf" firstAttribute="top" secondItem="POe-MP-oWi" secondAttribute="bottom" id="wwf-JH-XLt"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="zwC-of-FQr"/>
+                    <navigationItem key="navigationItem" title="Circle" id="zwC-of-FQr">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="Em4-Zr-ewg">
+                            <connections>
+                                <action selector="refreshData:" destination="rcm-Bu-12T" id="XLR-cB-uV5"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="actualTableView" destination="POe-MP-oWi" id="pOa-tU-SbM"/>
                         <outlet property="allTasksItem" destination="Wm9-4z-WYv" id="GPK-oK-Wrg"/>

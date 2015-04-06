@@ -28,6 +28,11 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
     
     @IBOutlet weak var tabBar: UITabBar!
     
+    @IBAction func refreshData(sender: UIBarButtonItem) {
+        if let tableView = actualTableView {
+            tableView.reloadData()
+        }
+    }
     
     @IBAction func myTasksAction(sender: UIBarButtonItem) {
         if let tableView = actualTableView {
@@ -100,8 +105,6 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
         }
         
         // Do any additional setup after loading the view, typically from a nib.
-//        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
-//        self.navigationItem.rightBarButtonItem = addButton
     }
     
     
