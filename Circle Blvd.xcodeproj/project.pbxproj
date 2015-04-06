@@ -17,6 +17,7 @@
 		166B21861AD0B39E00256781 /* CircleViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166B21851AD0B39E00256781 /* CircleViewProtocol.swift */; };
 		166B21881AD0B63500256781 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166B21871AD0B63500256781 /* ListViewController.swift */; };
 		166B218A1AD0C2C400256781 /* CircleVlew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166B21891AD0C2C400256781 /* CircleVlew.swift */; };
+		16D8E4BD1AD27F8700C6012E /* CircleViewFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D8E4BC1AD27F8700C6012E /* CircleViewFilter.swift */; };
 		16F014311ACA63950089E95C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F014301ACA63950089E95C /* AppDelegate.swift */; };
 		16F014341ACA63950089E95C /* Circle_Blvd.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 16F014321ACA63950089E95C /* Circle_Blvd.xcdatamodeld */; };
 		16F014361ACA63950089E95C /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F014351ACA63950089E95C /* MasterViewController.swift */; };
@@ -50,6 +51,7 @@
 		166B21851AD0B39E00256781 /* CircleViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleViewProtocol.swift; sourceTree = "<group>"; };
 		166B21871AD0B63500256781 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		166B21891AD0C2C400256781 /* CircleVlew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleVlew.swift; sourceTree = "<group>"; };
+		16D8E4BC1AD27F8700C6012E /* CircleViewFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleViewFilter.swift; sourceTree = "<group>"; };
 		16F0142B1ACA63950089E95C /* Circle Blvd.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Circle Blvd.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		16F0142F1ACA63950089E95C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16F014301ACA63950089E95C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				1629754B1ACF4AA80092DC79 /* Task.swift */,
 				1644F3E01AD0659100E80662 /* Circle.swift */,
 				16F0142E1ACA63950089E95C /* Supporting Files */,
+				16D8E4BC1AD27F8700C6012E /* CircleViewFilter.swift */,
 			);
 			path = "Circle Blvd";
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 			files = (
 				165C933C1ACE437800D2CD5E /* CirclesViewController.swift in Sources */,
 				166B218A1AD0C2C400256781 /* CircleVlew.swift in Sources */,
+				16D8E4BD1AD27F8700C6012E /* CircleViewFilter.swift in Sources */,
 				1629754C1ACF4AA80092DC79 /* Task.swift in Sources */,
 				16F014311ACA63950089E95C /* AppDelegate.swift in Sources */,
 				16F014341ACA63950089E95C /* Circle_Blvd.xcdatamodeld in Sources */,

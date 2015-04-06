@@ -21,6 +21,18 @@ class MasterViewController: UIViewController, CircleViewProtocol {
     var circle: NSDictionary? 
     
 
+    @IBAction func myTasksAction(sender: UIBarButtonItem) {
+        if let tableView = actualTableView {
+            tableView.viewFilter = CircleViewFilter.MyTasks
+        }
+    }
+    
+    @IBAction func allTasksAction(sender: UIBarButtonItem) {
+        if let tableView = actualTableView {
+            tableView.viewFilter = CircleViewFilter.AllTasks
+        }
+    }
+    
     @IBOutlet weak var titleItem: UINavigationItem!
     
     @IBOutlet weak var actualTableView: CircleView!
@@ -42,6 +54,12 @@ class MasterViewController: UIViewController, CircleViewProtocol {
             actualTableView.circle = circle
             
             // TODO: do we need to actualTableView.reloadData()?
+            
+            if let circle = circle {
+                if let circleName = circle["name"] as String? {
+                    self.title = circleName
+                }
+            }
         }
         
         // Do any additional setup after loading the view, typically from a nib.

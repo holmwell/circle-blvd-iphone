@@ -23,8 +23,10 @@ class CircleView: UITableView,
 
     
     required init(coder aDecoder: NSCoder) {
+        self.viewFilter = CircleViewFilter.AllTasks
         super.init(coder: aDecoder)
         self.dataSource = self
+    
         // TODO: Do we need this?
         // self.delegate = self
     }
@@ -357,6 +359,34 @@ class CircleView: UITableView,
         }
     }
     
+    var viewFilter: CircleViewFilter {
+        didSet {
+            switch viewFilter {
+            case .AllTasks:
+                _fetchPredicate = nil
+                break
+            case .MyTasks:
+                let predicateFormat = "(isNextMeeting = true) OR (isMilepost = true) OR (owner = %@)"
+                
+                if let profile = profile {
+                    if let profileName = profile["name"] as? String {
+                        let ownerPredicate = NSPredicate(format: predicateFormat, profileName)
+                        _fetchPredicate = ownerPredicate
+                    }
+                }
+                break
+            }
+            
+            // Cache invalidation
+            _fetchedResultsController = nil
+            
+            // Call super because we don't need to get the 
+            // tasks again, we just need to refresh our view.
+            super.reloadData()
+        }
+    }
+    var _fetchPredicate: NSPredicate?
+    
     // MARK: - Fetched results controller
     
     var fetchedResultsController: NSFetchedResultsController {
@@ -383,6 +413,9 @@ class CircleView: UITableView,
         
         println("1...")
         
+        if let fetchPredicate = _fetchPredicate {
+            fetchRequest.predicate = fetchPredicate
+        }
         
         // Edit the section name key path and cache name if appropriate.
         // nil for section name key path means "no sections".

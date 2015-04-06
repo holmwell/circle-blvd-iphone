@@ -19,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         let navigationController = self.window!.rootViewController as UINavigationController
         let controller = navigationController.topViewController as SignInViewController
+        
+        //let controller = self.window!.rootViewController as CircleViewProtocol
         controller.managedObjectContext = self.managedObjectContext
         return true
     }
