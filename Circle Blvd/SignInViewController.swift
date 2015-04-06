@@ -102,6 +102,15 @@ class SignInViewController: UIViewController {
     }
     
     func toSegue() {
+        // HACK: spaces being used for padding. Please fix.
+        let circlesButton = UIBarButtonItem(title: " Circles ", style: UIBarButtonItemStyle.Plain,
+            target: self, action: "actuallyToSegue")
+        
+        self.navigationItem.rightBarButtonItem = circlesButton
+        actuallyToSegue()
+    }
+    
+    func actuallyToSegue() {
         // toSegue() is often called from a background thread (after
         // a network request). Since performing segues from background
         // threads leads to crashes, we dispatch it to the main queue
@@ -187,6 +196,10 @@ class SignInViewController: UIViewController {
             }
         })
         dataTask.resume()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        // println("VOILA")
     }
     
     override func viewDidLoad() {
