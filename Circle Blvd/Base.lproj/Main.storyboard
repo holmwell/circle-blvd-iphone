@@ -83,16 +83,6 @@
             </objects>
             <point key="canvasLocation" x="281" y="-874"/>
         </scene>
-        <!--Master-->
-        <scene sceneID="VgW-fR-Quf">
-            <objects>
-                <tableViewController id="pGg-6v-bdr" customClass="MasterViewController" customModule="Circle_Blvd" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Master" id="tQt-TN-PWz"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6Cn-md-YlS" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1685" y="608"/>
-        </scene>
         <!--View All-->
         <scene sceneID="7v7-We-2bc">
             <objects>
@@ -132,10 +122,6 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>
-                                <connections>
-                                    <outlet property="dataSource" destination="pGg-6v-bdr" id="4Vh-dn-5t3"/>
-                                    <outlet property="delegate" destination="pGg-6v-bdr" id="juY-Nq-wWT"/>
-                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -196,10 +182,6 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>
-                                <connections>
-                                    <outlet property="dataSource" destination="pGg-6v-bdr" id="eUl-U4-nrc"/>
-                                    <outlet property="delegate" destination="pGg-6v-bdr" id="DVh-Ry-Ca1"/>
-                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
