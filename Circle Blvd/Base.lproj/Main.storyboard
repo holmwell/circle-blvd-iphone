@@ -293,6 +293,15 @@
                                     <action selector="takeOwnership:" destination="Ah7-4n-0Wa" eventType="touchUpInside" id="0im-gl-PIz"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o57-mE-wSr">
+                                <rect key="frame" x="16" y="521" width="241" height="30"/>
+                                <state key="normal" title="Let someone else own this task">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="renounceOwnership:" destination="Ah7-4n-0Wa" eventType="touchUpInside" id="lBz-IG-QVY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
@@ -311,8 +320,11 @@
                             <constraint firstItem="rdn-RZ-SSW" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="d0i-KJ-a2j"/>
                             <constraint firstItem="rdn-RZ-SSW" firstAttribute="top" secondItem="uap-6c-RGK" secondAttribute="bottom" constant="3" id="jIk-Jq-pjA"/>
                             <constraint firstItem="BAZ-E2-q1e" firstAttribute="top" secondItem="YFq-wO-bNH" secondAttribute="bottom" constant="8" id="jcl-iK-tkU"/>
+                            <constraint firstItem="o57-mE-wSr" firstAttribute="top" secondItem="BAZ-E2-q1e" secondAttribute="bottom" constant="8" id="jsj-B6-pYW"/>
+                            <constraint firstItem="a0L-h9-sNL" firstAttribute="top" secondItem="o57-mE-wSr" secondAttribute="bottom" constant="8" id="lVL-6T-1ed"/>
                             <constraint firstItem="Pya-R8-rRv" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="pDW-45-xbw"/>
                             <constraint firstItem="eay-B4-ISV" firstAttribute="top" secondItem="uap-6c-RGK" secondAttribute="bottom" constant="8" symbolic="YES" id="psj-yk-6MJ"/>
+                            <constraint firstItem="o57-mE-wSr" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="u47-hM-3xY"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Lei-5M-9Gs" secondAttribute="trailing" id="uCs-Zs-PTX"/>
                             <constraint firstItem="eay-B4-ISV" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" constant="15" id="vQN-e0-zN1"/>
                             <constraint firstItem="Lei-5M-9Gs" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="x8C-z3-dke"/>
@@ -323,6 +335,7 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="xev-3P-cfL"/>
+                                <exclude reference="54q-jB-dr5"/>
                             </mask>
                         </variation>
                     </view>
@@ -333,6 +346,7 @@
                         <outlet property="detailDescriptionLabel" destination="Lei-5M-9Gs" id="sCT-F7-F6f"/>
                         <outlet property="ownerDecoration" destination="paz-aO-cc1" id="cVH-qm-JVG"/>
                         <outlet property="ownerLabel" destination="eay-B4-ISV" id="eGg-aa-TBW"/>
+                        <outlet property="renounceOwnershipButton" destination="o57-mE-wSr" id="VKM-pW-d3N"/>
                         <outlet property="statusControl" destination="Pya-R8-rRv" id="HR4-fk-Mya"/>
                         <outlet property="summaryLabel" destination="uap-6c-RGK" id="3ye-1L-EVL"/>
                         <outlet property="takeOwnershipButton" destination="rdn-RZ-SSW" id="yuq-6o-eL1"/>

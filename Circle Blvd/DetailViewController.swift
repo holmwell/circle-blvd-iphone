@@ -18,6 +18,17 @@ class DetailViewController: UIViewController, SessionViewProtocol {
         //nothing goes here
     }
     
+    @IBOutlet weak var renounceOwnershipButton: UIButton!
+    
+    @IBAction func renounceOwnership(sender: AnyObject) {
+        if let task = detailItem as? Task {
+            task.owner = ""
+            saveTask(task)
+            self.configureView()
+        }
+    }
+    
+    
     @IBOutlet weak var takeOwnershipButton: UIButton!
     
     @IBAction func takeOwnership(sender: UIButton) {
@@ -253,6 +264,8 @@ class DetailViewController: UIViewController, SessionViewProtocol {
                             else {
                                 control.hidden = true
                             }
+                            
+                            self.renounceOwnershipButton?.hidden = !control.hidden
                         }
                     }
                 }
