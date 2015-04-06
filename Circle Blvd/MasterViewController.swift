@@ -20,20 +20,35 @@ class MasterViewController: UIViewController, CircleViewProtocol {
     var managedObjectContext: NSManagedObjectContext?
     var circle: NSDictionary? 
     
+    @IBOutlet weak var titleItem: UINavigationItem!
 
     @IBAction func myTasksAction(sender: UIBarButtonItem) {
         if let tableView = actualTableView {
             tableView.viewFilter = CircleViewFilter.MyTasks
+            updateTitlePrompt()
         }
     }
     
     @IBAction func allTasksAction(sender: UIBarButtonItem) {
         if let tableView = actualTableView {
             tableView.viewFilter = CircleViewFilter.AllTasks
+            updateTitlePrompt()
+        }
+    }
+
+    func updateTitlePrompt() {
+        if let tableView = actualTableView {
+            switch (tableView.viewFilter) {
+            case .AllTasks:
+                titleItem.prompt = nil
+                break
+            case .MyTasks:
+                titleItem.prompt = "My tasks"
+                break
+            }
         }
     }
     
-    @IBOutlet weak var titleItem: UINavigationItem!
     
     @IBOutlet weak var actualTableView: CircleView!
     
@@ -60,6 +75,8 @@ class MasterViewController: UIViewController, CircleViewProtocol {
                     self.title = circleName
                 }
             }
+            
+            updateTitlePrompt()
         }
         
         // Do any additional setup after loading the view, typically from a nib.
