@@ -15,8 +15,6 @@ class DetailViewController: UIViewController, SessionViewProtocol {
         
     }
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    
     @IBAction func unwindToMasterViewController(segue: UIStoryboardSegue) {
         //nothing goes here
     }
@@ -96,7 +94,7 @@ class DetailViewController: UIViewController, SessionViewProtocol {
     
     func didSaveTask(message: String) {
         dispatch_async(dispatch_get_main_queue()) {
-            self.activityIndicator.stopAnimating()
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             
             if (!message.isEmpty) {
                 let alert = UIAlertController(title: "Could not save", message: message, preferredStyle: UIAlertControllerStyle.Alert)
@@ -134,7 +132,7 @@ class DetailViewController: UIViewController, SessionViewProtocol {
         
         
         if let session = session {
-            activityIndicator.startAnimating()
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             let request = getSaveRequest(task)
             let dataTask = session.dataTaskWithRequest(request, completionHandler: {
                 (data: NSData!, response:NSURLResponse!, error: NSError!) -> Void in
