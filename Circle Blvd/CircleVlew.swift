@@ -40,9 +40,7 @@ class CircleView: UITableView,
         
         super.init(coder: aDecoder)
         self.dataSource = self
-    
-        // TODO: Do we need this?
-        // self.delegate = self
+        self.delegate = self
     }
     
     
@@ -52,8 +50,8 @@ class CircleView: UITableView,
     }
     
     override func reloadData() {
-        super.reloadData()
         didGetCircle()
+        super.reloadData()
     }
     
     func didFinishGetCircle() {
@@ -111,6 +109,17 @@ class CircleView: UITableView,
         
         if let description = source["description"] as? String {
             destination.setValue(description, forKey: "longDescription")
+        }
+        
+        if let isFirstTask = source["isFirstStory"] as? NSNumber {
+            destination.setValue(isFirstTask.boolValue, forKey: "isFirstTask")
+        }
+        else {
+            destination.setValue(false, forKey: "isFirstTask")
+        }
+        
+        if let nextId = source["nextId"] as? String {
+            destination.setValue(nextId, forKey: "nextId")
         }
         
         // isMilepost ...
@@ -308,10 +317,307 @@ class CircleView: UITableView,
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
+        if (viewFilter == CircleViewFilter.MyTasks) {
+            return false
+        }
+        return true
+    }
+
+    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        // Return false if you do not want the specified item to be moveable.
+        return true
+    }
+    
+    
+    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.None
+    }
+    
+    func tableView(tableView: UITableView, shouldIndentWhileEditingRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return false
     }
     
+    func didSaveTask() {
+        didSaveTask("")
+    }
+    
+    func didSaveTask(message: String) {
+        dispatch_async(dispatch_get_main_queue()) {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            
+            if (!message.isEmpty) {
+                let alert = UIAlertController(title: "Could not save", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                let alertAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (UIAlertAction) -> Void in }
+                
+                alert.addAction(alertAction)
+                println(message)
+                // TODO: ...
+                // self.presentViewController(alert, animated: false, completion: { () -> Void in })
+            }
+            else {
+                let context = self.fetchedResultsController.managedObjectContext
+                var error: NSError? = nil
+                if !context.save(&error) {
+                    // Replace this implementation with code to handle the error appropriately.
+                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                    //println("Unresolved error \(error), \(error.userInfo)")
+                    abort()
+                }
+            }
+        }
+    }
+    
+    // TODO: Refactor, put this somewhere nice
+    func valueOrEmptyString(optional: NSString?) -> NSString {
+        if (optional? != nil) {
+            return optional!
+        }
+        else {
+            return ""
+        }
+    }
+    
+    func tableView(tableView: UITableView,
+        moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+            
+            if fromIndexPath.section == toIndexPath.section &&
+                fromIndexPath.row == toIndexPath.row {
+                    // Do nothing
+                    return
+            }
+            
+            
+            let cache = self.fetchedResultsController
+            
+            // TODO: Move this into the task object
+            func moveTask(task: Task, newNextId: String) {
+                // Update server
+                func getMoveRequest(task: Task) -> NSURLRequest {
+                    
+                    var request = NSMutableURLRequest(URL: NSURL(string: self.baseUrl! + "/data/story/move")!)
+                    
+                    request.HTTPMethod = "PUT"
+                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                    request.setValue("application/json", forHTTPHeaderField: "Accept")
+                    
+                    var parameters = NSMutableDictionary()
+                    parameters["id"] = task.id
+                    parameters["summary"] = task.summary
+                    parameters["description"] = valueOrEmptyString(task.longDescription)
+                    parameters["owner"] = valueOrEmptyString(task.owner)
+                    parameters["status"] = valueOrEmptyString(task.status)
+                    parameters["projectId"] = task.circleId
+                    
+                    var body = NSMutableDictionary()
+                    body["story"] = parameters
+                    body["newNextId"] = newNextId
+                    
+                    // pass dictionary to nsdata object and set it as request body
+                    var err: NSError?
+                    request.HTTPBody = NSJSONSerialization.dataWithJSONObject(body, options: nil, error: &err)
+                    
+                    return request
+                }
+                
+                
+                if let session = session {
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+                    let request = getMoveRequest(task)
+                    let dataTask = session.dataTaskWithRequest(request, completionHandler: {
+                        (data: NSData!, response:NSURLResponse!, error: NSError!) -> Void in
+                        
+                        if let httpResponse = response as? NSHTTPURLResponse {
+                            if (httpResponse.statusCode == 200) {
+                                self.didSaveTask()
+                            }
+                            else {
+                                // TODO: Show error (invalid login)
+                                if (httpResponse.statusCode >= 500) {
+                                    self.didSaveTask("Sorry, our server has failed us. Maybe it is busy. Please try again.")
+                                }
+                                else if (httpResponse.statusCode >= 400) {
+                                    self.didSaveTask("Sorry, please sign in again.")
+                                }
+                                else {
+                                    println("Received an unexpected result from the server.")
+                                    self.didSaveTask("Sorry, we don't know what is happening. It's our fault, but if you keep seeing this, you might want to upgrade your app.")
+                                }
+                            }
+                        }
+                        else {
+                            self.didSaveTask("Sorry, we could not connect to the internet.")
+                        }
+                    })
+                    dataTask.resume()
+                }
+            }
+
+            func updateModel(movedTask: Task, oldPreviousIndexPath: NSIndexPath?,
+                oldNextIndexPath: NSIndexPath?, previousIndexPath: NSIndexPath?, nextTask: Task?) {
+
+                    var oldNextTask: Task?
+                    var oldPreviousTask: Task?
+                    var previousTask: Task?
+                    
+                    if let oldNextIndex = oldNextIndexPath {
+                        oldNextTask = self.fetchedResultsController.objectAtIndexPath(oldNextIndex) as? Task
+                    }
+                    
+                    if let oldPreviousIndex = oldPreviousIndexPath {
+                        oldPreviousTask = self.fetchedResultsController.objectAtIndexPath(oldPreviousIndex) as? Task
+                    }
+                    
+                    if let previousIndex = previousIndexPath {
+                        previousTask = self.fetchedResultsController.objectAtIndexPath(previousIndex) as? Task
+                    }
+                    
+                    // 1. Update the previous location
+                    if let oldNext = oldNextTask {
+                        if (movedTask.isFirstTask.boolValue) {
+                            movedTask.isFirstTask = false
+                            oldNext.isFirstTask = true
+                        }
+                        
+                        if let oldPrevious = oldPreviousTask {
+                            oldPrevious.nextId = oldNext.id
+                        }
+                    }
+                    else if let oldPrevious = oldPreviousTask {
+                        oldPrevious.nextId = "last-" + oldPrevious.circleId
+                    }
+
+                    // 2. Update the moved task
+                    if let next = nextTask {
+                        movedTask.nextId = next.id
+                    }
+                    else {
+                        movedTask.nextId = "last-" + movedTask.circleId
+                    }
+                    
+                    // 3. Update the new location
+                    if let previous = previousTask {
+                        previous.nextId = movedTask.id
+                    }
+                    else {
+                        movedTask.isFirstTask = true
+                    }
+                    
+                    
+                    // Update sort index
+                    let cache = self.fetchedResultsController
+                    var startIndex: Int = 0
+                    var endIndex: Int = 0
+                    var nextIndex: Int = 0
+                    
+                    if let next = nextTask {
+                        nextIndex = next.sortKey!.integerValue
+                    }
+                    else {
+                        nextIndex = self.numberOfRowsInSection(0)
+                    }
+                    
+                    if (movedTask.sortKey?.integerValue < nextIndex) {
+                        // Update from old next task to moved task
+                        startIndex = oldNextIndexPath!.row
+                        endIndex = previousIndexPath!.row
+                        
+                        var currentIndex = startIndex
+                        
+                        while (currentIndex <= endIndex) {
+                            if let currentTask = cache.objectAtIndexPath(NSIndexPath(forRow: currentIndex, inSection: 0)) as? Task {
+                                currentTask.sortKey = currentTask.sortKey!.integerValue - 1
+                            }
+                            currentIndex = currentIndex + 1
+                        }
+                        
+                        movedTask.sortKey = endIndex
+
+                    }
+                    else {
+                        // Update from moved task to old previous task
+                        startIndex = nextIndex
+                        if (nextIndex >= self.numberOfRowsInSection(0)) {
+                            startIndex = self.numberOfRowsInSection(0) - 1
+                        }
+                        endIndex = movedTask.sortKey!.integerValue
+                        
+                        var currentIndex = startIndex
+                        
+                        while (currentIndex <= endIndex) {
+                            if let currentTask = cache.objectAtIndexPath(NSIndexPath(forRow: currentIndex, inSection: 0)) as? Task {
+                                currentTask.sortKey = currentTask.sortKey!.integerValue + 1
+                            }
+                            currentIndex = currentIndex + 1
+                        }
+                        
+                        movedTask.sortKey = startIndex
+                    }
+            }
+            
+            
+            var nextIndexPath = NSIndexPath(forRow: toIndexPath.row + 1, inSection: toIndexPath.section)
+            if (fromIndexPath.row >= toIndexPath.row) {
+                nextIndexPath = toIndexPath
+            }
+            
+            var previousIndexPath: NSIndexPath?
+            if (nextIndexPath.row > 0) {
+                previousIndexPath = NSIndexPath(forRow: nextIndexPath.row - 1, inSection: nextIndexPath.section)
+            }
+            
+            var oldPreviousIndexPath: NSIndexPath?
+            var oldNextIndexPath: NSIndexPath?
+            
+            if fromIndexPath.row > 0 {
+                oldPreviousIndexPath = NSIndexPath(forRow: fromIndexPath.row - 1, inSection: fromIndexPath.section)
+            }
+            
+            let taskCount = self.numberOfRowsInSection(0)
+            if (fromIndexPath.row != taskCount - 1) {
+                oldNextIndexPath = NSIndexPath(forRow: fromIndexPath.row + 1, inSection: fromIndexPath.section)
+            }
+            
+            if let fromObject = cache.objectAtIndexPath(fromIndexPath) as? Task {
+                if let toObject = cache.objectAtIndexPath(toIndexPath) as? Task {
+                    println(fromObject.summary)
+                    if nextIndexPath.row < taskCount {
+                        if let nextObject = cache.objectAtIndexPath(nextIndexPath) as? Task {
+                            println(nextObject.summary)
+                            println(nextObject.sortKey)
+                            updateModel(fromObject, oldPreviousIndexPath, oldNextIndexPath, previousIndexPath, nextObject)
+                            moveTask(fromObject, nextObject.id)
+                        }
+                        else {
+                            println("NEXT OBJECT IS NULL?")
+                        }
+                    }
+                    else {
+                        let lastId = "last-" + fromObject.circleId
+                        updateModel(fromObject, oldPreviousIndexPath, oldNextIndexPath, previousIndexPath, nil)
+                        moveTask(fromObject, lastId)
+                    }
+                }
+                else {
+                    println("TO OBJECT IS NULL?")
+                }
+            }
+            
+            //cell.textLabel!.text = object.valueForKey("summary") as? String
+            //tableView.cellForRowAtIndexPath(<#indexPath: NSIndexPath#>)
+        println("MMOVE")
+    }
+    
+//    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]? {
+//        let actions: NSMutableArray = []
+//        
+//        
+//        
+//        
+//        return actions
+//    }
+    
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        println(editingStyle)
         if editingStyle == .Delete {
             let context = self.fetchedResultsController.managedObjectContext
             context.deleteObject(self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject)
@@ -341,6 +647,7 @@ class CircleView: UITableView,
 //        }
 
         cell.selectionStyle = UITableViewCellSelectionStyle.None
+        cell.showsReorderControl = true
         
         cell.backgroundColor = UIColor.whiteColor()
         cell.textLabel!.textColor = UIColor.blackColor()
@@ -479,7 +786,7 @@ class CircleView: UITableView,
     var _fetchedResultsController: NSFetchedResultsController? = nil
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        // println("will change content ...")
+        println("will change content ...")
         self.beginUpdates()
     }
     
@@ -528,7 +835,7 @@ class CircleView: UITableView,
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        // println("did change content")
+        println("did change content")
         self.endUpdates()
     }
     

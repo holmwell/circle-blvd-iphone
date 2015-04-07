@@ -13,20 +13,24 @@
     <entity name="Task" representedClassName="Circle_Blvd.Task" syncable="YES">
         <attribute name="circleId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isFirstTask" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isMilepost" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isNextMeeting" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="listId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="longDescription" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nextId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="owner" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sortKey" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="syncStatus" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Comment" inverseName="task" inverseEntity="Comment" syncable="YES"/>
+        <relationship name="nextTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="previousTask" inverseEntity="Task" syncable="YES"/>
+        <relationship name="previousTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="nextTask" inverseEntity="Task" syncable="YES"/>
     </entity>
     <elements>
         <element name="Circle" positionX="270" positionY="270" width="128" height="73"/>
         <element name="Comment" positionX="270" positionY="279" width="128" height="103"/>
-        <element name="Task" positionX="270" positionY="207" width="128" height="223"/>
+        <element name="Task" positionX="270" positionY="207" width="128" height="285"/>
     </elements>
 </model>

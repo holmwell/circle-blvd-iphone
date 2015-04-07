@@ -34,10 +34,18 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
         }
     }
     
+
+    @IBAction func longPress(sender: UILongPressGestureRecognizer) {
+        if let cell = sender.view as? UITableViewCell {
+            println("LONG PRESS")
+        }
+    }
+    
     @IBAction func myTasksAction(sender: UIBarButtonItem) {
         if let tableView = actualTableView {
             tableView.viewFilter = CircleViewFilter.MyTasks
             updateTitlePrompt()
+            updateNavigationButtons()
         }
     }
     
@@ -45,6 +53,7 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
         if let tableView = actualTableView {
             tableView.viewFilter = CircleViewFilter.AllTasks
             updateTitlePrompt()
+            updateNavigationButtons()
         }
     }
 
@@ -81,6 +90,9 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
             actualTableView.circle = circle
             
             // TODO: do we need to actualTableView.reloadData()?
+            //tableView.editing = true
+            // tableView.setEditing(true, animated: true)
+            
             
             if let circle = circle {
                 if let circleName = circle["name"] as String? {
@@ -102,11 +114,42 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
             }
             
             updateTitlePrompt()
+            updateNavigationButtons()
         }
-        
+    }
+
+    func updateNavigationButtons() {
         // Do any additional setup after loading the view, typically from a nib.
+        let refreshButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshData:")
+        
+        let editButton = UIBarButtonItem(title: "Order", style: UIBarButtonItemStyle.Plain, target: self, action: "toggleMove:")
+        editButton.tag = 0
+        
+        println("UPDATING")
+        
+        var buttonItems = [UIBarButtonItem]()
+        buttonItems.append(refreshButton)
+        if let tableView = actualTableView {
+            if tableView.viewFilter == CircleViewFilter.AllTasks {
+                buttonItems.append(editButton)
+            }
+        }
+        //buttonItems.append(nil)
+        self.navigationItem.setRightBarButtonItems(buttonItems, animated: true)
     }
     
+    func toggleMove(sender: UIBarButtonItem) {
+        if sender.tag == 0 {
+            sender.title = "Done"
+            sender.tag = 1
+            actualTableView?.setEditing(true, animated: true)
+        }
+        else {
+            sender.title = "Order"
+            sender.tag = 0
+            actualTableView?.setEditing(false, animated: true)
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -134,6 +177,7 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
             if let tableView = actualTableView {
                 tableView.viewFilter = filter
                 updateTitlePrompt()
+                updateNavigationButtons()
             }
         }
     }

@@ -113,6 +113,7 @@
 		16F0142D1ACA63950089E95C /* Circle Blvd */ = {
 			isa = PBXGroup;
 			children = (
+				16F014391ACA63950089E95C /* Main.storyboard */,
 				16F014301ACA63950089E95C /* AppDelegate.swift */,
 				166B21831AD0AC3C00256781 /* SessionViewProtocol.swift */,
 				166B21851AD0B39E00256781 /* CircleViewProtocol.swift */,
@@ -123,15 +124,14 @@
 				166B21891AD0C2C400256781 /* CircleVlew.swift */,
 				161742491AD1F37800678F10 /* MineCircleView.swift */,
 				16F014371ACA63950089E95C /* DetailViewController.swift */,
-				16F014391ACA63950089E95C /* Main.storyboard */,
 				16F0143C1ACA63950089E95C /* Images.xcassets */,
 				16F0143E1ACA63950089E95C /* LaunchScreen.xib */,
 				16F014321ACA63950089E95C /* Circle_Blvd.xcdatamodeld */,
 				1629754D1ACF4B170092DC79 /* Comment.swift */,
 				1629754B1ACF4AA80092DC79 /* Task.swift */,
 				1644F3E01AD0659100E80662 /* Circle.swift */,
-				16F0142E1ACA63950089E95C /* Supporting Files */,
 				16D8E4BC1AD27F8700C6012E /* CircleViewFilter.swift */,
+				16F0142E1ACA63950089E95C /* Supporting Files */,
 			);
 			path = "Circle Blvd";
 			sourceTree = "<group>";
