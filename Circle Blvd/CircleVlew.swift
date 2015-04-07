@@ -56,11 +56,16 @@ class CircleView: UITableView,
         didGetCircle()
     }
     
+    func didFinishGetCircle() {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    }
     
     func didGetCircle() {
         if let circle = self.circle {
             if let circleId = circle["id"] as? String {
                 let url = NSURL(string: baseUrl! + "/data/" + circleId + "/stories");
+                // TODO: Be cool and deal with simultaneous requests
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = true
                 let task = session?.dataTaskWithURL(url!) {(data, response, error) in
                     if let data = data {
                         self.didGetStories(data)
@@ -68,6 +73,7 @@ class CircleView: UITableView,
                     else {
                         println("Could not get stories")
                     }
+                    self.didFinishGetCircle()
                 }
                 task?.resume();
             }
@@ -325,6 +331,14 @@ class CircleView: UITableView,
         let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
 
         cell.textLabel!.text = object.valueForKey("summary") as? String
+// Tried using the right-detail view. Summaries need to be clipped or something if
+// this is to work.
+//        if let owner = object.valueForKey("owner") as? String {
+//            cell.detailTextLabel!.text = owner
+//        }
+//        else {
+//            cell.detailTextLabel!.text = ""
+//        }
 
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
