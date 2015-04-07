@@ -9,10 +9,13 @@
 import UIKit
 
 class DetailViewController: UIViewController, SessionViewProtocol {
-
+    
+    
     @IBAction func swipeRight(sender: UISwipeGestureRecognizer) {
         
     }
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBAction func unwindToMasterViewController(segue: UIStoryboardSegue) {
         //nothing goes here
@@ -52,7 +55,6 @@ class DetailViewController: UIViewController, SessionViewProtocol {
     @IBOutlet weak var statusControl: UISegmentedControl!
  
     @IBAction func statusControlAction(sender: UISegmentedControl) {
-    
         if let task = detailItem as? Task {
             switch sender.selectedSegmentIndex {
             case 0:
@@ -88,8 +90,27 @@ class DetailViewController: UIViewController, SessionViewProtocol {
         }
     }
     
+    func didSaveTask() {
+        didSaveTask("")
+    }
+    
+    func didSaveTask(message: String) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.activityIndicator.stopAnimating()
+            
+            if (!message.isEmpty) {
+                let alert = UIAlertController(title: "Could not save", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                let alertAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (UIAlertAction) -> Void in }
+
+                alert.addAction(alertAction)
+                self.presentViewController(alert, animated: false, completion: { () -> Void in })
+            }
+        }
+    }
+    
     func saveTask(task: Task) {
         func getSaveRequest(task: Task) -> NSURLRequest {
+            
             var request = NSMutableURLRequest(URL: NSURL(string: self.baseUrl! + "/data/story")!)
             
             request.HTTPMethod = "PUT"
@@ -111,22 +132,33 @@ class DetailViewController: UIViewController, SessionViewProtocol {
             return request
         }
         
+        
         if let session = session {
+            activityIndicator.startAnimating()
             let request = getSaveRequest(task)
-            
             let dataTask = session.dataTaskWithRequest(request, completionHandler: {
                 (data: NSData!, response:NSURLResponse!, error: NSError!) -> Void in
                 
                 if let httpResponse = response as? NSHTTPURLResponse {
                     if (httpResponse.statusCode == 200) {
-                        // TODO: Show success
+                        self.didSaveTask()
                     }
                     else {
                         // TODO: Show error (invalid login)
+                        if (httpResponse.statusCode >= 500) {
+                            self.didSaveTask("Sorry, our server has failed us. Maybe it is busy. Please try again.")
+                        }
+                        else if (httpResponse.statusCode >= 400) {
+                            self.didSaveTask("Sorry, please sign in again.")
+                        }
+                        else {
+                            println("Received an unexpected result from the server.")
+                            self.didSaveTask("Sorry, we don't know what is happening. It's our fault, but if you keep seeing this, you might want to upgrade your app.")
+                        }
                     }
                 }
                 else {
-                    // Show error
+                    self.didSaveTask("Sorry, we could not connect to the internet.")
                 }
             })
             dataTask.resume()

@@ -402,10 +402,14 @@
                                     <action selector="renounceOwnership:" destination="Ah7-4n-0Wa" eventType="touchUpInside" id="lBz-IG-QVY"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="b5p-nV-Pbg">
+                                <rect key="frame" x="564" y="560" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="b5p-nV-Pbg" secondAttribute="centerX" id="3Wv-AK-cGU"/>
                             <constraint firstItem="paz-aO-cc1" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="4e4-bL-Tub"/>
                             <constraint firstItem="a0L-h9-sNL" firstAttribute="top" secondItem="BAZ-E2-q1e" secondAttribute="bottom" constant="8" id="54q-jB-dr5"/>
                             <constraint firstItem="Lei-5M-9Gs" firstAttribute="trailing" secondItem="MMQ-IT-qOo" secondAttribute="trailingMargin" id="9P9-YM-ti2"/>
@@ -414,10 +418,12 @@
                             <constraint firstItem="YFq-wO-bNH" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="K1z-Gf-hrN"/>
                             <constraint firstItem="Pya-R8-rRv" firstAttribute="trailing" secondItem="MMQ-IT-qOo" secondAttribute="trailingMargin" id="SXB-e5-2HD"/>
                             <constraint firstItem="BAZ-E2-q1e" firstAttribute="trailing" secondItem="MMQ-IT-qOo" secondAttribute="trailingMargin" id="U0g-2i-iBW"/>
+                            <constraint firstItem="b5p-nV-Pbg" firstAttribute="trailing" secondItem="MMQ-IT-qOo" secondAttribute="trailingMargin" id="WKT-rq-hDm"/>
                             <constraint firstItem="Lei-5M-9Gs" firstAttribute="top" secondItem="paz-aO-cc1" secondAttribute="bottom" constant="8" symbolic="YES" id="YZJ-z9-Hon"/>
                             <constraint firstItem="uap-6c-RGK" firstAttribute="top" secondItem="cIm-e0-J51" secondAttribute="bottom" constant="8" id="cEl-zT-Xrg"/>
                             <constraint firstItem="paz-aO-cc1" firstAttribute="top" secondItem="uap-6c-RGK" secondAttribute="bottom" constant="8" symbolic="YES" id="cMg-Uf-YaX"/>
                             <constraint firstItem="rdn-RZ-SSW" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="d0i-KJ-a2j"/>
+                            <constraint firstItem="a0L-h9-sNL" firstAttribute="top" secondItem="b5p-nV-Pbg" secondAttribute="bottom" constant="20" id="e0X-PQ-e2f"/>
                             <constraint firstItem="rdn-RZ-SSW" firstAttribute="top" secondItem="uap-6c-RGK" secondAttribute="bottom" constant="3" id="jIk-Jq-pjA"/>
                             <constraint firstItem="BAZ-E2-q1e" firstAttribute="top" secondItem="YFq-wO-bNH" secondAttribute="bottom" constant="8" id="jcl-iK-tkU"/>
                             <constraint firstItem="o57-mE-wSr" firstAttribute="top" secondItem="BAZ-E2-q1e" secondAttribute="bottom" constant="8" id="jsj-B6-pYW"/>
@@ -426,6 +432,7 @@
                             <constraint firstItem="eay-B4-ISV" firstAttribute="top" secondItem="uap-6c-RGK" secondAttribute="bottom" constant="8" symbolic="YES" id="psj-yk-6MJ"/>
                             <constraint firstItem="o57-mE-wSr" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="u47-hM-3xY"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Lei-5M-9Gs" secondAttribute="trailing" id="uCs-Zs-PTX"/>
+                            <constraint firstItem="b5p-nV-Pbg" firstAttribute="top" secondItem="Pya-R8-rRv" secondAttribute="bottom" constant="8" id="vI5-Vc-0na"/>
                             <constraint firstItem="eay-B4-ISV" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" constant="15" id="vQN-e0-zN1"/>
                             <constraint firstItem="Lei-5M-9Gs" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="x8C-z3-dke"/>
                             <constraint firstItem="uap-6c-RGK" firstAttribute="leading" secondItem="MMQ-IT-qOo" secondAttribute="leadingMargin" id="xdy-BE-DLN"/>
@@ -436,11 +443,14 @@
                             <mask key="constraints">
                                 <exclude reference="xev-3P-cfL"/>
                                 <exclude reference="54q-jB-dr5"/>
+                                <exclude reference="3Wv-AK-cGU"/>
+                                <exclude reference="vI5-Vc-0na"/>
                             </mask>
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Task" id="cra-N8-TIN"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="b5p-nV-Pbg" id="XaP-5z-d5w"/>
                         <outlet property="commentsDecoration" destination="YFq-wO-bNH" id="dCc-su-VTW"/>
                         <outlet property="commentsLabel" destination="BAZ-E2-q1e" id="1Cx-De-yjB"/>
                         <outlet property="detailDescriptionLabel" destination="Lei-5M-9Gs" id="sCT-F7-F6f"/>
@@ -508,6 +518,42 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="olA-fC-qpB" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1118" y="-874"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="nvM-Ru-B4w">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="WHk-Xd-rZg" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="RM8-fl-v26"/>
+                        <viewControllerLayoutGuide type="bottom" id="H60-Re-CL4"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Wc8-Tp-Oq4">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Ae-g3-5aJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="Edj-Xe-sNI">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="9v5-gc-nNP" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Euh-Kc-AIi"/>
+                        <viewControllerLayoutGuide type="bottom" id="OfC-tx-sUt"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="FaF-O4-N9Q">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fTB-4L-bIY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>
