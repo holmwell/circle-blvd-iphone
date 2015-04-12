@@ -86,10 +86,11 @@ class CircleView: UITableView,
     
     // Copy a Json dictionary into a NSManagedObject Task entity
     func copyTask(source: AnyObject, destination: AnyObject) {
-        destination.setValue(source["sortKey"] as Int, forKey: "sortKey")
+        // TODO: Get rid of all this casting and use some classes
+        destination.setValue(source["sortKey"] as! Int, forKey: "sortKey")
         
-        destination.setValue(source["id"] as String, forKey: "id")
-        destination.setValue(source["summary"] as String, forKey: "summary")
+        destination.setValue(source["id"] as! String, forKey: "id")
+        destination.setValue(source["summary"] as! String, forKey: "summary")
         
         if let circleId = source["projectId"] as? String {
             destination.setValue(circleId, forKey: "circleId")
@@ -158,7 +159,7 @@ class CircleView: UITableView,
             // TODO: Make sure we're not deleting while something else is
             // changing the context. Check to see if we can wait for something
             commentsModel.enumerateObjectsUsingBlock { (elem, index, stop) -> Void in
-                context?.deleteObject(elem as NSManagedObject)
+                context?.deleteObject(elem as! NSManagedObject)
                 return
             }
             
@@ -177,7 +178,7 @@ class CircleView: UITableView,
                         entity.setValue(text, forKey: "text")
                     }
                     
-                    entity.setValue(destination as Task, forKey: "task")
+                    entity.setValue(destination as! Task, forKey: "task")
                 }
             }
         }
@@ -198,11 +199,11 @@ class CircleView: UITableView,
             return
         }
         
-        var jsonDict: NSDictionary = json as NSDictionary
+        var jsonDict: NSDictionary = json as! NSDictionary
         var firstTask: AnyObject? = NSDictionary()
         
         for (id, task) in jsonDict {
-            if (task["isFirstStory"] as Int == 1) {
+            if (task["isFirstStory"] as! Int == 1) {
                 firstTask = task
             }
         }
@@ -216,14 +217,14 @@ class CircleView: UITableView,
         
         while (currentTask !== nil) {
             var currentTaskDict: NSMutableDictionary = NSMutableDictionary()
-            if let task = currentTask as? NSDictionary {
+            if let task = currentTask as? [String: AnyObject] {
                 currentTaskDict.addEntriesFromDictionary(task)
                 currentTaskDict.setValue(count, forKey: "sortKey");
                 
                 if (shouldIncludeTask(task)) {
                     taskArray.addObject(currentTaskDict)
                 }
-                currentTask = jsonDict[currentTaskDict["nextId"] as String]
+                currentTask = jsonDict[currentTaskDict["nextId"] as! String]
                 count++
             }
             else {
@@ -247,9 +248,9 @@ class CircleView: UITableView,
                 var serverTaskFound = false
                 
                 for existingTask in existingTasks {
-                    let task = task as NSDictionary
-                    let taskId = task["id"] as String
-                    let existingTaskId = existingTask.valueForKey("id") as String
+                    let task = task as! NSDictionary
+                    let taskId = task["id"] as! String
+                    let existingTaskId = existingTask.valueForKey("id") as! String
                     
                     if (taskId == existingTaskId) {
                         copyTask(task, destination: existingTask);
@@ -262,13 +263,13 @@ class CircleView: UITableView,
                 }
                 
                 if (!serverTaskFound) {
-                    insertTask(task as NSDictionary)
+                    insertTask(task as! NSDictionary)
                 }
             }
             
             for existingTask in existingTasks {
-                if existingTask.valueForKey("syncStatus") as String == "delete" {
-                    context.deleteObject(existingTask as NSManagedObject)
+                if existingTask.valueForKey("syncStatus") as! String == "delete" {
+                    context.deleteObject(existingTask as! NSManagedObject)
                 }
             }
         }
@@ -287,7 +288,7 @@ class CircleView: UITableView,
         let context = self.fetchedResultsController.managedObjectContext
         let entity = self.fetchedResultsController.fetchRequest.entity!
         
-        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as NSManagedObject
+        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as! NSManagedObject
         
         // If appropriate, configure the new managed object.
         // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
@@ -304,13 +305,13 @@ class CircleView: UITableView,
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // println("number")
-        let sectionInfo = self.fetchedResultsController.sections![section] as NSFetchedResultsSectionInfo
+        let sectionInfo = self.fetchedResultsController.sections![section] as! NSFetchedResultsSectionInfo
 
         return sectionInfo.numberOfObjects
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         self.configureCell(cell, atIndexPath: indexPath)
         return cell
     }
@@ -369,7 +370,7 @@ class CircleView: UITableView,
     
     // TODO: Refactor, put this somewhere nice
     func valueOrEmptyString(optional: NSString?) -> NSString {
-        if (optional? != nil) {
+        if (optional != nil) {
             return optional!
         }
         else {
@@ -620,7 +621,7 @@ class CircleView: UITableView,
         println(editingStyle)
         if editingStyle == .Delete {
             let context = self.fetchedResultsController.managedObjectContext
-            context.deleteObject(self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject)
+            context.deleteObject(self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject)
             
             var error: NSError? = nil
             if !context.save(&error) {
@@ -634,7 +635,7 @@ class CircleView: UITableView,
     
     func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
         // println("configure cell ...")
-        let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
+        let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
 
         cell.textLabel!.text = object.valueForKey("summary") as? String
 // Tried using the right-detail view. Summaries need to be clipped or something if

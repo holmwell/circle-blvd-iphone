@@ -38,7 +38,7 @@ class CirclesViewController: UITableViewController, NSFetchedResultsControllerDe
         let fetchedObjects = context.executeFetchRequest(requestAll, error: &error)
         if let fetchedCircles = fetchedObjects {
             for circle in fetchedCircles {
-                context.deleteObject(circle as NSManagedObject)
+                context.deleteObject(circle as! NSManagedObject)
             }
         }
         
@@ -67,12 +67,13 @@ class CirclesViewController: UITableViewController, NSFetchedResultsControllerDe
         let context = self.fetchedResultsController.managedObjectContext
         let entity = self.fetchedResultsController.fetchRequest.entity!
         
-        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as NSManagedObject
+        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as! NSManagedObject
         
         // If appropriate, configure the new managed object.
         // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-        newManagedObject.setValue(circle["name"] as String, forKey: "name")
-        newManagedObject.setValue(circle["id"] as String, forKey: "id")
+        // TODO: Add a custom class for Circle
+        newManagedObject.setValue(circle["name"] as! String, forKey: "name")
+        newManagedObject.setValue(circle["id"] as! String, forKey: "id")
     }
     
     
@@ -80,17 +81,17 @@ class CirclesViewController: UITableViewController, NSFetchedResultsControllerDe
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
-        let dest = segue.destinationViewController as CircleViewProtocol
+        let dest = segue.destinationViewController as! CircleViewProtocol
         dest.baseUrl = self.baseUrl
         dest.session = self.session
         dest.profile = self.profile
         dest.managedObjectContext = self.managedObjectContext
         
         if let indexPath = self.tableView.indexPathForSelectedRow() {
-            let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
+            let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
             var circle = NSMutableDictionary();
-            circle["name"] = object.valueForKey("name") as String
-            circle["id"] = object.valueForKey("id") as String
+            circle["name"] = object.valueForKey("name") as! String
+            circle["id"] = object.valueForKey("id") as! String
             dest.circle = circle
         }
     }
@@ -102,12 +103,12 @@ class CirclesViewController: UITableViewController, NSFetchedResultsControllerDe
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sectionInfo = self.fetchedResultsController.sections![section] as NSFetchedResultsSectionInfo
+        let sectionInfo = self.fetchedResultsController.sections![section] as! NSFetchedResultsSectionInfo
         return sectionInfo.numberOfObjects
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         self.configureCell(cell, atIndexPath: indexPath)
         return cell
     }
@@ -120,7 +121,7 @@ class CirclesViewController: UITableViewController, NSFetchedResultsControllerDe
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             let context = self.fetchedResultsController.managedObjectContext
-            context.deleteObject(self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject)
+            context.deleteObject(self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject)
             
             var error: NSError? = nil
             if !context.save(&error) {
@@ -133,7 +134,7 @@ class CirclesViewController: UITableViewController, NSFetchedResultsControllerDe
     }
     
     func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
-        let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
+        let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
         
         cell.textLabel!.text = object.valueForKey("name") as? String
     }

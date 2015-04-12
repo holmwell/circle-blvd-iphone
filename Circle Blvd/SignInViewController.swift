@@ -137,7 +137,7 @@ class SignInViewController: UIViewController {
         if let segueName = segue.identifier {
             if segueName == "toMasterSegue" {
                 // We get here if we're only in one circle.
-                let dest = segue.destinationViewController as CircleViewProtocol
+                let dest = segue.destinationViewController as! CircleViewProtocol
                 dest.baseUrl = self.baseUrl
                 dest.session = self.session
                 dest.profile = self.profile
@@ -153,7 +153,7 @@ class SignInViewController: UIViewController {
             }
             else {
                 // toCirclesSegue
-                let dest = segue.destinationViewController as CirclesViewController
+                let dest = segue.destinationViewController as! CirclesViewController
                 dest.baseUrl = self.baseUrl
                 dest.session = self.session
                 dest.profile = self.profile
@@ -177,7 +177,7 @@ class SignInViewController: UIViewController {
         let dataTask = session.dataTaskWithRequest(request, completionHandler: {
             (data: NSData!, response:NSURLResponse!, error: NSError!) -> Void in
             if let response = response {
-                let httpResponse = response as NSHTTPURLResponse
+                let httpResponse = response as! NSHTTPURLResponse
                 if (httpResponse.statusCode == 200) {
                     self.didSignIn(data)
                     self.toSegue()
@@ -189,8 +189,8 @@ class SignInViewController: UIViewController {
             else {
                 println("Could not access the Internet")
                 // Onward! Load defaults from last successful signin
-                self.profile = self.defaults.objectForKey("profile") as NSDictionary?
-                self.circles = self.defaults.objectForKey("circles") as NSDictionary?
+                self.profile = self.defaults.objectForKey("profile") as! NSDictionary?
+                self.circles = self.defaults.objectForKey("circles") as! NSDictionary?
                 
                 self.toSegue()
             }

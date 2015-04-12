@@ -80,7 +80,7 @@ class DetailViewController: UIViewController, SessionViewProtocol {
     }
     
     func valueOrEmptyString(optional: NSString?) -> NSString {
-        if (optional? != nil) {
+        if (optional != nil) {
             return optional!
         }
         else {
@@ -251,7 +251,7 @@ class DetailViewController: UIViewController, SessionViewProtocol {
                     var allCommentsString = ""
                     comments.enumerateObjectsUsingBlock { (comment, index, stop) -> Void in
                         
-                        let comment = comment as Comment
+                        let comment = comment as! Comment
                         var commentString = ""
                         commentString += comment.authorName + ": "
                         commentString += comment.text

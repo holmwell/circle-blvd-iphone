@@ -9,7 +9,6 @@
 import UIKit
 import CoreData
 import Foundation
-import Argo
 
 class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtocol {
 
@@ -95,7 +94,7 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
             
             
             if let circle = circle {
-                if let circleName = circle["name"] as String? {
+                if let circleName = circle["name"] as? String? {
                     self.title = circleName
                 }
             }
@@ -162,8 +161,8 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.actualTableView.indexPathForSelectedRow() {
-                let object = self.actualTableView.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
-                let destination = segue.destinationViewController as DetailViewController
+                let object = self.actualTableView.fetchedResultsController.objectAtIndexPath(indexPath) as! NSManagedObject
+                let destination = segue.destinationViewController as! DetailViewController
                 destination.detailItem = object
                 destination.baseUrl = self.baseUrl
                 destination.session = self.session
