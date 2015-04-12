@@ -29,11 +29,16 @@ class CircleView: UITableView,
                         viewFilter = filter
                     }
                 }
+                invalidateCircleCache()
                 didGetCircle()
             }
         }
     }
 
+    func invalidateCircleCache() {
+        _fetchedResultsController = nil
+    }
+    
     
     required init(coder aDecoder: NSCoder) {
         self.viewFilter = CircleViewFilter.AllTasks
@@ -303,10 +308,13 @@ class CircleView: UITableView,
         return self.fetchedResultsController.sections?.count ?? 0
     }
     
+    func numberOfObjectsInTableView() -> Int {
+        return tableView(self, numberOfRowsInSection: 0)
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // println("number")
         let sectionInfo = self.fetchedResultsController.sections![section] as! NSFetchedResultsSectionInfo
-
         return sectionInfo.numberOfObjects
     }
     
@@ -787,7 +795,7 @@ class CircleView: UITableView,
     var _fetchedResultsController: NSFetchedResultsController? = nil
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
-        println("will change content ...")
+//        println("will change content ...")
         self.beginUpdates()
     }
     
@@ -817,7 +825,12 @@ class CircleView: UITableView,
             // println("Update ...")
             let path = indexPath!
             if let cell = self.cellForRowAtIndexPath(path) {
-                self.configureCell(cell, atIndexPath: indexPath!)
+                if (path.row < numberOfObjectsInTableView()) {
+                    self.configureCell(cell, atIndexPath: indexPath!)
+                }
+                else {
+                    println("SAVED THE DAY")
+                }
             }
             else {
                 // TODO ...
@@ -836,7 +849,9 @@ class CircleView: UITableView,
     }
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        println("did change content")
+//        println("did change content")
+        // TODO: This can cause a 'message sent to deallocated instance' error
+        // via didGetStories -> context.save
         self.endUpdates()
     }
     
