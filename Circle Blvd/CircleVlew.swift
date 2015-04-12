@@ -8,6 +8,7 @@
 
 import CoreData
 import UIKit
+import Socket_IO_Client_Swift
 
 class CircleView: UITableView,
     UITableViewDelegate,
@@ -17,6 +18,8 @@ class CircleView: UITableView,
     var session: NSURLSession? = nil
     var baseUrl: String? = ""
     var profile: NSDictionary?
+    
+    var socket: SocketIOClient?
     
     var managedObjectContext: NSManagedObjectContext? = nil
     var circle: NSDictionary? {
@@ -63,6 +66,36 @@ class CircleView: UITableView,
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
     
+    func initRealtimeUpdates(circleId: String) {
+        if let baseUrl = baseUrl {
+            if socket == nil {
+                socket = SocketIOClient(socketURL: baseUrl)
+                if let socket = socket {
+                    socket.on("connect") {data, ack in
+                        println("socket connected")
+                        let message = [
+                            "circle": circleId
+                        ]
+                        socket.emit("join-circle", message)
+                    }
+                    
+                    socket.on("o") { data, ack in
+                        println("oooooo")
+                        self.reloadData()
+                    }
+                    
+                    socket.connect()
+                }
+            }
+            else {
+                let message = [
+                    "circle": circleId
+                ]
+                socket!.emit("join-circle", message)
+            }
+        }
+    }
+    
     func didGetCircle() {
         if let circle = self.circle {
             if let circleId = circle["id"] as? String {
@@ -72,6 +105,7 @@ class CircleView: UITableView,
                 let task = session?.dataTaskWithURL(url!) {(data, response, error) in
                     if let data = data {
                         self.didGetStories(data)
+                        self.initRealtimeUpdates(circleId)
                     }
                     else {
                         println("Could not get stories")
