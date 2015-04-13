@@ -19,6 +19,111 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
     var managedObjectContext: NSManagedObjectContext?
     var circle: NSDictionary? 
     
+    @IBAction func longPressAction(sender: UILongPressGestureRecognizer) {
+        
+        if (sender.state == UIGestureRecognizerState.Began) {
+            if let tableView = actualTableView {
+                let point = sender.locationInView(tableView)
+                let indexPath = tableView.indexPathForRowAtPoint(point)
+                
+                if let path = indexPath {
+                    if let task = tableView.fetchedResultsController.objectAtIndexPath(path) as? Task {
+                        task.status = "done"
+                        saveTask(task)
+                    }
+                }
+            }
+        }
+    }
+    
+    func valueOrEmptyString(optional: NSString?) -> NSString {
+        if (optional != nil) {
+            return optional!
+        }
+        else {
+            return ""
+        }
+    }
+    
+    func didSaveTask() {
+        didSaveTask("")
+    }
+    
+    func didSaveTask(message: String) {
+        dispatch_async(dispatch_get_main_queue()) {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            
+            if (!message.isEmpty) {
+                let alert = UIAlertController(title: "Could not save", message: message, preferredStyle: UIAlertControllerStyle.Alert)
+                let alertAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (UIAlertAction) -> Void in }
+                
+                alert.addAction(alertAction)
+                self.presentViewController(alert, animated: false, completion: { () -> Void in })
+            }
+        }
+    }
+    
+    // TODO: Move this to Task
+    func saveTask(task: Task) {
+        func getSaveRequest(task: Task) -> NSURLRequest {
+            
+            var request = NSMutableURLRequest(URL: NSURL(string: self.baseUrl! + "/data/story")!)
+            
+            request.HTTPMethod = "PUT"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("application/json", forHTTPHeaderField: "Accept")
+            
+            var parameters = NSMutableDictionary()
+            parameters["id"] = task.id
+            parameters["summary"] = task.summary
+            parameters["description"] = valueOrEmptyString(task.longDescription)
+            parameters["owner"] = valueOrEmptyString(task.owner)
+            parameters["status"] = valueOrEmptyString(task.status)
+            parameters["projectId"] = task.circleId
+            
+            // pass dictionary to nsdata object and set it as request body
+            var err: NSError?
+            request.HTTPBody = NSJSONSerialization.dataWithJSONObject(parameters, options: nil, error: &err)
+            
+            return request
+        }
+        
+        
+        if let session = session {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            let request = getSaveRequest(task)
+            let dataTask = session.dataTaskWithRequest(request, completionHandler: {
+                (data: NSData!, response:NSURLResponse!, error: NSError!) -> Void in
+                
+                if let httpResponse = response as? NSHTTPURLResponse {
+                    if (httpResponse.statusCode == 200) {
+                        self.didSaveTask()
+                    }
+                    else {
+                        // TODO: Show error (invalid login)
+                        if (httpResponse.statusCode >= 500) {
+                            self.didSaveTask("Sorry, our server has failed us. Maybe it is busy. Please try again.")
+                        }
+                        else if (httpResponse.statusCode >= 400) {
+                            self.didSaveTask("Sorry, please sign in again.")
+                        }
+                        else {
+                            println("Received an unexpected result from the server.")
+                            self.didSaveTask("Sorry, we don't know what is happening. It's our fault, but if you keep seeing this, you might want to upgrade your app.")
+                        }
+                    }
+                }
+                else {
+                    self.didSaveTask("Sorry, we could not connect to the internet.")
+                }
+            })
+            dataTask.resume()
+        }
+    }
+
+    
+    
+    
     @IBOutlet weak var titleItem: UINavigationItem!
 
     @IBOutlet weak var myTasksItem: UITabBarItem!
