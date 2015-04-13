@@ -27,12 +27,13 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
     
     @IBOutlet weak var tabBar: UITabBar!
     
-    @IBAction func refreshData(sender: UIBarButtonItem) {
-        if let tableView = actualTableView {
-            tableView.reloadData()
-        }
+    @IBAction func addTask(sender: UIBarButtonItem) {
+        performSegueWithIdentifier("toAddTask", sender: self)
     }
     
+    @IBAction func unwindToMaster(segue: UIStoryboardSegue) {
+        // Unwind destination ...
+    }
 
     @IBAction func longPress(sender: UILongPressGestureRecognizer) {
         if let cell = sender.view as? UITableViewCell {
@@ -119,15 +120,13 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
 
     func updateNavigationButtons() {
         // Do any additional setup after loading the view, typically from a nib.
-        let refreshButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: "refreshData:")
+        let addButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addTask:")
         
         let editButton = UIBarButtonItem(title: "Order", style: UIBarButtonItemStyle.Plain, target: self, action: "toggleMove:")
         editButton.tag = 0
         
-        println("UPDATING")
-        
         var buttonItems = [UIBarButtonItem]()
-        buttonItems.append(refreshButton)
+        buttonItems.append(addButton)
         if let tableView = actualTableView {
             if tableView.viewFilter == CircleViewFilter.AllTasks {
                 buttonItems.append(editButton)
@@ -168,6 +167,13 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
                 destination.session = self.session
                 destination.profile = self.profile
             }
+        }
+        else if segue.identifier == "toAddTask" {
+            let destination = segue.destinationViewController as! AddTaskController
+            destination.circle = self.circle
+            destination.baseUrl = self.baseUrl
+            destination.session = self.session
+            destination.profile = self.profile
         }
     }
     
