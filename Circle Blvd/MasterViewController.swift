@@ -176,6 +176,18 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
             destination.profile = self.profile
         }
     }
+
+    override func willMoveToParentViewController(parent: UIViewController?) {
+        super.willMoveToParentViewController(parent)
+
+        // Disconnect Socket IO from the server. This isn't exactly good
+        // object oriented code. Feel free to fix it.
+        if let tableView = actualTableView {
+            if let socket = tableView.socket {
+                socket.disconnect(fast: false)
+            }
+        }
+    }
     
     func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem!) {
         if let filter = CircleViewFilter(rawValue: item.tag) {
