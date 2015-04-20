@@ -18,6 +18,7 @@ class SignInViewController: UIViewController {
     let session = NSURLSession.sharedSession()
     let baseUrl = "https://circleblvd.org"
 //    let baseUrl = "http://localhost:3000"
+//    let baseUrl = "http://10.0.1.2:3000"
     
     let defaults = NSUserDefaults.standardUserDefaults()
     
@@ -36,6 +37,18 @@ class SignInViewController: UIViewController {
         request.HTTPBody = bodyStr.dataUsingEncoding(NSUTF8StringEncoding)
     
         return request
+    }
+
+    @IBOutlet weak var passwordField: UITextField!
+    
+    @IBAction func tapRecognized(sender: UITapGestureRecognizer) {
+        // Hide the keyboard if one of the text field's is 
+        // selected and we tap outside of it.
+        self.view.endEditing(false)
+    }
+    
+    @IBAction func usernameEnded(sender: AnyObject) {
+        passwordField.becomeFirstResponder()
     }
     
     @IBAction func passwordEnded(sender: AnyObject) {

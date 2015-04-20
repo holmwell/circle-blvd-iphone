@@ -34,14 +34,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cfb-lB-ua0">
-                                <rect key="frame" x="206" y="233" width="188" height="30"/>
+                                <rect key="frame" x="206" y="179" width="188" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                <connections>
+                                    <action selector="usernameEnded:" destination="nl0-5o-qBN" eventType="editingDidEndOnExit" id="3cy-Nz-tsT"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Cqd-K7-QVj">
-                                <rect key="frame" x="206" y="273" width="188" height="30"/>
+                                <rect key="frame" x="206" y="219" width="188" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                 <connections>
                                     <action selector="passwordEnded:" destination="nl0-5o-qBN" eventType="editingDidEndOnExit" id="Qur-wR-kNz"/>
                                 </connections>
@@ -53,7 +56,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IWA-vY-p3g">
-                                <rect key="frame" x="307" y="311" width="87" height="30"/>
+                                <rect key="frame" x="307" y="257" width="87" height="30"/>
                                 <state key="normal" title="Sign In">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -63,6 +66,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="cfb-lB-ua0" firstAttribute="centerX" secondItem="Cqd-K7-QVj" secondAttribute="centerX" id="8bw-5C-xMq"/>
                             <constraint firstItem="cfb-lB-ua0" firstAttribute="trailing" secondItem="Cqd-K7-QVj" secondAttribute="trailing" id="FbK-3l-YHE"/>
@@ -70,10 +74,14 @@
                             <constraint firstAttribute="centerX" secondItem="wHP-wq-rIx" secondAttribute="centerX" id="raT-e2-rVz"/>
                             <constraint firstAttribute="centerX" secondItem="cfb-lB-ua0" secondAttribute="centerX" id="sQj-46-bq8"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="6HE-0u-87V" appends="YES" id="RTZ-Wk-EKx"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="vN0-lC-Bqx"/>
                     <connections>
                         <outlet property="emailTextField" destination="cfb-lB-ua0" id="kQ3-Uj-bPs"/>
+                        <outlet property="passwordField" destination="Cqd-K7-QVj" id="Fve-TB-rod"/>
                         <outlet property="passwordTextField" destination="Cqd-K7-QVj" id="oCt-CP-Ue0"/>
                         <segue destination="uUt-5m-5ob" kind="show" identifier="toCirclesSegue" id="vjY-sF-TWp"/>
                         <segue destination="eka-eT-jeb" kind="show" identifier="toMasterSegueOld" id="f7B-xy-eBA"/>
@@ -81,6 +89,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qoW-zC-9NR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="6HE-0u-87V">
+                    <connections>
+                        <action selector="tapRecognized:" destination="nl0-5o-qBN" id="3nl-3s-uvT"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="281" y="-874"/>
         </scene>
@@ -656,7 +669,7 @@
         <image name="myTasks" width="66" height="66"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="2D5-4c-A0m"/>
+        <segue reference="FQf-N6-hW4"/>
         <segue reference="Vfr-oS-o4m"/>
     </inferredMetricsTieBreakers>
 </document>
