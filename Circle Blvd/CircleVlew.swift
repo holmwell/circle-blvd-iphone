@@ -127,8 +127,13 @@ class CircleView: UITableView,
                 let url = NSURL(string: baseUrl! + "/data/" + circleId + "/stories");
                 // TODO: Be cool and deal with simultaneous requests
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-                let task = session?.dataTaskWithURL(url!) {(data, response, error) in
+                let task = session?.dataTaskWithURL(url!) {
+                    (data, response, error) in
                     dispatch_async(dispatch_get_main_queue()) {
+                        if let error = error {
+                            println("Error getting stories: \(error.description) (\(error.code)")
+                        }
+                        
                         if let data = data {
                             self.didGetStories(data)
                             self.initRealtimeUpdates(circleId)
@@ -382,7 +387,10 @@ class CircleView: UITableView,
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        // TODO UILongPressGestureRecognizer.retain (?) is related to sending a message
+        // to a deallocated instance, here, when we fail to fetch circle data and then
+        // change views.
+        let cell = self.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
         self.configureCell(cell, atIndexPath: indexPath)
         return cell
     }

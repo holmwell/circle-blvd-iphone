@@ -14,13 +14,17 @@ class CircleBlvdClient: SessionViewProtocol {
     @objc var profile: NSDictionary?
     @objc var circles: NSDictionary?
     
-    @objc var session: NSURLSession? = NSURLSession.sharedSession()
+    @objc var session: NSURLSession?
     let defaults = NSUserDefaults.standardUserDefaults()
     
     init() {
         // baseUrl = "http://localhost:3000"
         baseUrl = "https://circleblvd.org"
         // baseUrl = "http://10.0.1.2:3000"
+
+        let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
+        sessionConfig.timeoutIntervalForRequest = 8;
+        session = NSURLSession.sharedSession()
     }
 
     private func getSignInRequest(email: String, password: String) -> NSURLRequest {

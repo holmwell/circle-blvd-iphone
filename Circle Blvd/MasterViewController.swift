@@ -139,12 +139,6 @@ class MasterViewController: UIViewController, UITabBarDelegate, CircleViewProtoc
     @IBAction func unwindToMaster(segue: UIStoryboardSegue) {
         // Unwind destination ...
     }
-
-    @IBAction func longPress(sender: UILongPressGestureRecognizer) {
-        if let cell = sender.view as? UITableViewCell {
-            println("LONG PRESS")
-        }
-    }
     
     @IBAction func myTasksAction(sender: UIBarButtonItem) {
         if let tableView = actualTableView {
