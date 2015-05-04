@@ -79,7 +79,7 @@ class CircleView: UITableView,
                 socket = SocketIOClient(socketURL: baseUrl)
                 if let socket = socket {
                     socket.on("connect") {data, ack in
-                        println("socket connected")
+                        // println("socket connected")
                         let message = [
                             "circle": circleId
                         ]
@@ -87,7 +87,7 @@ class CircleView: UITableView,
                     }
                     
                     socket.on("o") { data, ack in
-                        println("oooooo")
+                        // println("oooooo")
                         self.reloadData()
                     }
                     
@@ -256,7 +256,7 @@ class CircleView: UITableView,
     
     
     func didGetStories(data: NSData) {
-        println("DID GET STORIES")
+        // println("DID GET STORIES")
         
         // TODO: Use an error pointer
         let json: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: nil)
@@ -825,7 +825,7 @@ class CircleView: UITableView,
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        println("1...")
+        // println("1...")
         
         if let fetchPredicate = _fetchPredicate {
             fetchRequest.predicate = fetchPredicate
@@ -839,7 +839,7 @@ class CircleView: UITableView,
         aFetchedResultsController.delegate = self
         _fetchedResultsController = aFetchedResultsController
         
-        println("2...")
+        // println("2...")
         
         var error: NSError? = nil
         if !_fetchedResultsController!.performFetch(&error) {
@@ -847,7 +847,7 @@ class CircleView: UITableView,
             println("Unresolved error \(error), \(error?.userInfo)")
         }
         
-        println("3...")
+        // println("3...")
         
         return _fetchedResultsController!
     }
@@ -899,17 +899,17 @@ class CircleView: UITableView,
             }
             else {
                 // TODO ...
-                println("PATH NOT FOUND")
+                // println("PATH NOT FOUND")
 //                                    println(path)
             }
             
             break
         case .Move:
-            println("Move ...")
+            // println("Move ...")
             self.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             self.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
         default:
-            println("WHAT")
+            println("Unknown object change type detected")
             return
         }
     }
