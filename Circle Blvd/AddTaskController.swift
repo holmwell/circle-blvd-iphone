@@ -21,6 +21,8 @@ class AddTaskController: UIViewController, CircleViewProtocol {
     @IBOutlet weak var summaryField: UITextField!
     @IBOutlet weak var descriptionField: UITextView!
     @IBOutlet weak var ownerSwitch: UISwitch!
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     
     @IBAction func addTask(sender: AnyObject) {
         println("Add")
@@ -116,5 +118,10 @@ class AddTaskController: UIViewController, CircleViewProtocol {
             
             self.performSegueWithIdentifier("unwindToMaster", sender: self)
         }
+    }
+    
+    
+    func textViewDidChange(textView: UITextView) {
+        
     }
 }

@@ -467,49 +467,67 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4ZV-ny-Llm">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="4ZV-ny-Llm">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
                                 <subviews>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mCJ-w8-mkn">
-                                        <rect key="frame" x="543" y="114" width="51" height="31"/>
-                                    </switch>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Assign task to me" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iNy-aK-OLf">
-                                        <rect key="frame" x="8" y="119" width="225" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Task summary" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9c8-ed-zay">
-                                        <rect key="frame" x="8" y="76" width="584" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="What are the details?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Es2-9C-qpK">
-                                        <rect key="frame" x="8" y="148" width="210" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WAg-R9-5hB">
-                                        <rect key="frame" x="8" y="177" width="584" height="274"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                        <dataDetectorType key="dataDetectorTypes" link="YES"/>
-                                    </textView>
+                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w9l-6J-8Ep" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="8" width="600" height="595"/>
+                                        <subviews>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Task summary" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9c8-ed-zay">
+                                                <rect key="frame" x="8" y="69" width="584" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textField>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mCJ-w8-mkn">
+                                                <rect key="frame" x="543" y="107" width="51" height="31"/>
+                                            </switch>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Assign task to me" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iNy-aK-OLf">
+                                                <rect key="frame" x="8" y="112" width="225" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="What are the details?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Es2-9C-qpK">
+                                                <rect key="frame" x="8" y="141" width="210" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="WAg-R9-5hB">
+                                                <rect key="frame" x="8" y="170" width="584" height="274"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="TCw-vE-iVB" id="z2V-nN-Itv"/>
+                                                </connections>
+                                            </textView>
+                                        </subviews>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="9c8-ed-zay" firstAttribute="leading" secondItem="w9l-6J-8Ep" secondAttribute="leading" constant="8" id="Bej-f2-fxF"/>
+                                            <constraint firstAttribute="trailing" secondItem="9c8-ed-zay" secondAttribute="trailing" constant="8" id="gSq-PU-mzx"/>
+                                            <constraint firstAttribute="trailing" secondItem="mCJ-w8-mkn" secondAttribute="trailing" constant="8" id="wFO-qb-xdl"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="mCJ-w8-mkn" secondAttribute="trailing" constant="8" id="V48-fd-v2F"/>
+                                    <constraint firstAttribute="bottom" secondItem="w9l-6J-8Ep" secondAttribute="bottom" id="7rd-qQ-BZp"/>
+                                    <constraint firstAttribute="trailing" secondItem="w9l-6J-8Ep" secondAttribute="trailing" id="H2F-YZ-m4i"/>
+                                    <constraint firstItem="w9l-6J-8Ep" firstAttribute="leading" secondItem="4ZV-ny-Llm" secondAttribute="leading" id="TkA-s7-NbP"/>
+                                    <constraint firstItem="w9l-6J-8Ep" firstAttribute="top" secondItem="4ZV-ny-Llm" secondAttribute="top" id="lFn-no-zHt"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="48F-jU-pDH" firstAttribute="top" secondItem="4ZV-ny-Llm" secondAttribute="bottom" id="Rch-0e-iOG"/>
-                            <constraint firstItem="4ZV-ny-Llm" firstAttribute="top" secondItem="pGx-d5-bWL" secondAttribute="topMargin" id="Smn-VZ-3LH"/>
-                            <constraint firstItem="4ZV-ny-Llm" firstAttribute="leading" secondItem="pGx-d5-bWL" secondAttribute="leadingMargin" constant="-16" id="fmf-tL-ynb"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="4ZV-ny-Llm" secondAttribute="trailing" constant="-16" id="kcv-w5-Cng"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4ZV-ny-Llm" secondAttribute="trailing" constant="-16" id="HTg-fR-b49"/>
+                            <constraint firstItem="48F-jU-pDH" firstAttribute="top" secondItem="4ZV-ny-Llm" secondAttribute="bottom" id="abb-kG-qd2"/>
+                            <constraint firstItem="4ZV-ny-Llm" firstAttribute="top" secondItem="pGx-d5-bWL" secondAttribute="topMargin" id="dZ9-ka-oG2"/>
+                            <constraint firstAttribute="width" secondItem="w9l-6J-8Ep" secondAttribute="width" id="eyf-4K-WlO"/>
+                            <constraint firstItem="4ZV-ny-Llm" firstAttribute="leading" secondItem="pGx-d5-bWL" secondAttribute="leadingMargin" constant="-16" id="p67-bM-2ny"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -524,6 +542,7 @@
                     <connections>
                         <outlet property="descriptionField" destination="WAg-R9-5hB" id="UmP-Yo-DHZ"/>
                         <outlet property="ownerSwitch" destination="mCJ-w8-mkn" id="8ds-op-Xjt"/>
+                        <outlet property="scrollView" destination="4ZV-ny-Llm" id="Cle-bR-TOr"/>
                         <outlet property="summaryField" destination="9c8-ed-zay" id="oZP-bV-cO7"/>
                         <segue destination="eof-q6-6Ck" kind="unwind" identifier="unwindToMaster" unwindAction="unwindToMaster:" id="ERK-Nc-bIm"/>
                     </connections>
