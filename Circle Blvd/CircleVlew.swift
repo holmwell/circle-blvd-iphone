@@ -64,6 +64,13 @@ class CircleView: UITableView,
     
     func didFinishGetCircle() {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        
+        if let circle = circle {
+            if let circleId = circle["id"] as? String {
+                let defaults = NSUserDefaults.standardUserDefaults()
+                defaults.setValue(circleId, forKey: "most-recent-circle")
+            }
+        }
     }
     
     func initRealtimeUpdates(circleId: String) {
@@ -99,6 +106,24 @@ class CircleView: UITableView,
     func didGetCircle() {
         if let circle = self.circle {
             if let circleId = circle["id"] as? String {
+                let defaults = NSUserDefaults.standardUserDefaults()
+                if let mostRecentCircleId = defaults.valueForKey("most-recent-circle") as? String {
+                    if (mostRecentCircleId != circleId) {
+                        // Clear out our context.
+                        if let context = self.managedObjectContext {
+                            var error: NSError? = nil
+                            
+                            let requestAll: NSFetchRequest = NSFetchRequest(entityName: "Task")
+                            let fetchedObjects = context.executeFetchRequest(requestAll, error: &error)
+                            if let existingTasks = fetchedObjects {
+                                for task in existingTasks {
+                                    context.deleteObject(task as! NSManagedObject)
+                                }
+                            }
+                        }
+                    }
+                }
+                
                 let url = NSURL(string: baseUrl! + "/data/" + circleId + "/stories");
                 // TODO: Be cool and deal with simultaneous requests
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = true
@@ -254,7 +279,7 @@ class CircleView: UITableView,
         
         var count: Int = 0
         
-        while (currentTask !== nil) {
+        while (currentTask != nil) {
             var currentTaskDict: NSMutableDictionary = NSMutableDictionary()
             if let task = currentTask as? [String: AnyObject] {
                 currentTaskDict.addEntriesFromDictionary(task)
@@ -307,8 +332,10 @@ class CircleView: UITableView,
             }
             
             for existingTask in existingTasks {
-                if existingTask.valueForKey("syncStatus") as! String == "delete" {
-                    context.deleteObject(existingTask as! NSManagedObject)
+                if let existingTask = existingTask as? Task {
+                    if (existingTask.syncStatus == "delete") {
+                        context.deleteObject(existingTask)
+                    }
                 }
             }
         }
@@ -317,7 +344,7 @@ class CircleView: UITableView,
             var error: NSError? = nil
             if !context.save(&error) {
                 // TODO: ...
-                abort()
+                println("Unresolved error \(error), \(error?.userInfo)")
             }
         }
     }
@@ -401,10 +428,8 @@ class CircleView: UITableView,
                 let context = self.fetchedResultsController.managedObjectContext
                 var error: NSError? = nil
                 if !context.save(&error) {
-                    // Replace this implementation with code to handle the error appropriately.
-                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                    //println("Unresolved error \(error), \(error.userInfo)")
-                    abort()
+                    // TODO: Replace this implementation with code to handle the error appropriately.
+                    println("Unresolved error \(error), \(error?.userInfo)")
                 }
             }
         }
@@ -667,10 +692,8 @@ class CircleView: UITableView,
             
             var error: NSError? = nil
             if !context.save(&error) {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                //println("Unresolved error \(error), \(error.userInfo)")
-                abort()
+                // TODO: Replace this implementation with code to handle the error appropriately.
+                println("Unresolved error \(error), \(error?.userInfo)")
             }
         }
     }
@@ -815,11 +838,8 @@ class CircleView: UITableView,
         
         var error: NSError? = nil
         if !_fetchedResultsController!.performFetch(&error) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development
-            // println("Unresolved error \(error), \(error.userInfo)")
-
-            // abort()
+            // TODO: Replace this implementation with code to handle the error appropriately.
+            println("Unresolved error \(error), \(error?.userInfo)")
         }
         
         println("3...")
@@ -886,7 +906,9 @@ class CircleView: UITableView,
 //        println("did change content")
         // TODO: This can cause a 'message sent to deallocated instance' error
         // via didGetStories -> context.save
-        self.endUpdates()
+        dispatch_async(dispatch_get_main_queue()) {
+            self.endUpdates()
+        }
     }
     
     /*
