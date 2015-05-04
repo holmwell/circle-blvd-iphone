@@ -128,14 +128,16 @@ class CircleView: UITableView,
                 // TODO: Be cool and deal with simultaneous requests
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = true
                 let task = session?.dataTaskWithURL(url!) {(data, response, error) in
-                    if let data = data {
-                        self.didGetStories(data)
-                        self.initRealtimeUpdates(circleId)
+                    dispatch_async(dispatch_get_main_queue()) {
+                        if let data = data {
+                            self.didGetStories(data)
+                            self.initRealtimeUpdates(circleId)
+                        }
+                        else {
+                            println("Could not get stories")
+                        }
+                        self.didFinishGetCircle()
                     }
-                    else {
-                        println("Could not get stories")
-                    }
-                    self.didFinishGetCircle()
                 }
                 task?.resume();
             }
@@ -494,27 +496,30 @@ class CircleView: UITableView,
                     let dataTask = session.dataTaskWithRequest(request, completionHandler: {
                         (data: NSData!, response:NSURLResponse!, error: NSError!) -> Void in
                         
-                        if let httpResponse = response as? NSHTTPURLResponse {
-                            if (httpResponse.statusCode == 200) {
-                                self.didSaveTask()
-                            }
-                            else {
-                                // TODO: Show error (invalid login)
-                                if (httpResponse.statusCode >= 500) {
-                                    self.didSaveTask("Sorry, our server has failed us. Maybe it is busy. Please try again.")
-                                }
-                                else if (httpResponse.statusCode >= 400) {
-                                    self.didSaveTask("Sorry, please sign in again.")
+                        dispatch_async(dispatch_get_main_queue()) {
+                            if let httpResponse = response as? NSHTTPURLResponse {
+                                if (httpResponse.statusCode == 200) {
+                                    self.didSaveTask()
                                 }
                                 else {
-                                    println("Received an unexpected result from the server.")
-                                    self.didSaveTask("Sorry, we don't know what is happening. It's our fault, but if you keep seeing this, you might want to upgrade your app.")
+                                    // TODO: Show error (invalid login)
+                                    if (httpResponse.statusCode >= 500) {
+                                        self.didSaveTask("Sorry, our server has failed us. Maybe it is busy. Please try again.")
+                                    }
+                                    else if (httpResponse.statusCode >= 400) {
+                                        self.didSaveTask("Sorry, please sign in again.")
+                                    }
+                                    else {
+                                        println("Received an unexpected result from the server.")
+                                        self.didSaveTask("Sorry, we don't know what is happening. It's our fault, but if you keep seeing this, you might want to upgrade your app.")
+                                    }
                                 }
                             }
+                            else {
+                                self.didSaveTask("Sorry, we could not connect to the internet.")
+                            }
                         }
-                        else {
-                            self.didSaveTask("Sorry, we could not connect to the internet.")
-                        }
+                        
                     })
                     dataTask.resume()
                 }
@@ -872,7 +877,13 @@ class CircleView: UITableView,
             self.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
             // println("Insert ...")
         case .Delete:
-            self.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+            if (indexPath!.row < numberOfObjectsInTableView()) {
+                self.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+            }
+            else {
+                self.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .None)
+                // println("Invalid deletion prevented?")
+            }
             // println("Delete ...")
         case .Update:
             // TODO: What is going on here?
@@ -888,16 +899,17 @@ class CircleView: UITableView,
             }
             else {
                 // TODO ...
-//                                    println("PATH NOT FOUND")
+                println("PATH NOT FOUND")
 //                                    println(path)
             }
             
             break
         case .Move:
-            // println("Move ...")
+            println("Move ...")
             self.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
             self.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
         default:
+            println("WHAT")
             return
         }
     }

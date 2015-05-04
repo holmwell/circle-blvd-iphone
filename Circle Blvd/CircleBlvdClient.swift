@@ -41,21 +41,22 @@ class CircleBlvdClient: SessionViewProtocol {
         
         let dataTask = session!.dataTaskWithRequest(request, completionHandler: {
             (data: NSData!, response:NSURLResponse!, error: NSError!) -> Void in
-            
-            if let httpResponse = response as? NSHTTPURLResponse {
-                if (httpResponse.statusCode == 200) {
-                    // If we succeed, go ahead and populate our account data
-                    self.getUserData {
-                        err in
-                        callback(err: err, result: "")
+            dispatch_async(dispatch_get_main_queue()) {
+                if let httpResponse = response as? NSHTTPURLResponse {
+                    if (httpResponse.statusCode == 200) {
+                        // If we succeed, go ahead and populate our account data
+                        self.getUserData {
+                            err in
+                            callback(err: err, result: "")
+                        }
+                    }
+                    else {
+                        callback(err: true, result: "Invalid login")
                     }
                 }
                 else {
-                    callback(err: true, result: "Invalid login")
+                    callback(err: true, result: "No internet")
                 }
-            }
-            else {
-                callback(err: true, result: "No internet")
             }
         })
         
@@ -106,24 +107,26 @@ class CircleBlvdClient: SessionViewProtocol {
         
         let dataTask = session!.dataTaskWithRequest(request, completionHandler: {
             (data: NSData!, response:NSURLResponse!, error: NSError!) -> Void in
-            if let response = response {
-                let httpResponse = response as! NSHTTPURLResponse
-                if (httpResponse.statusCode == 200) {
-                    self.didSignIn(data)
-                    callback(err: false)
+            dispatch_async(dispatch_get_main_queue()) {
+                if let response = response {
+                    let httpResponse = response as! NSHTTPURLResponse
+                    if (httpResponse.statusCode == 200) {
+                        self.didSignIn(data)
+                        callback(err: false)
+                    }
+                    else {
+                        callback(err: true)
+                    }
                 }
                 else {
-                    callback(err: true)
+                    println("Could not access the Internet")
+                    // Onward! Load defaults from last successful signin
+                    self.profile = self.defaults.objectForKey("profile") as! NSDictionary?
+                    self.circles = self.defaults.objectForKey("circles") as! NSDictionary?
+                    
+                    println("Loading things from the cache. Running in offline mode.")
+                    callback(err: false)
                 }
-            }
-            else {
-                println("Could not access the Internet")
-                // Onward! Load defaults from last successful signin
-                self.profile = self.defaults.objectForKey("profile") as! NSDictionary?
-                self.circles = self.defaults.objectForKey("circles") as! NSDictionary?
-                
-                println("Loading things from the cache. Running in offline mode.")
-                callback(err: false)
             }
         })
         dataTask.resume()

@@ -98,30 +98,28 @@ class CreateAccountController: UIViewController, CircleBlvdClientProtocol {
         if let session = client!.session {
             let dataTask = session.dataTaskWithRequest(request, completionHandler: {
                 (data: NSData!, response:NSURLResponse!, error: NSError!) -> Void in
-                
-                if let httpResponse = response as? NSHTTPURLResponse {
-                    if (httpResponse.statusCode == 200) {
-                        // Good to go
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.circleCreated()
+                dispatch_async(dispatch_get_main_queue()) {
+                    if let httpResponse = response as? NSHTTPURLResponse {
+                        if (httpResponse.statusCode == 200) {
+                                self.circleCreated()
+                        }
+                        else {
+                            if (httpResponse.statusCode == 400 || httpResponse.statusCode == 403) {
+                                if let message = NSString(data: data, encoding: NSUTF8StringEncoding) {
+                                    self.showAlert(String(message))
+                                }
+                                else {
+                                    self.showAlert("Sorry, things aren't working right now.")
+                                }
+                            }
+                            else {
+                                self.showAlert("Sorry, our computers aren't working. Please try again at a later time.ß")
+                            }
                         }
                     }
                     else {
-                        if (httpResponse.statusCode == 400 || httpResponse.statusCode == 403) {
-                            if let message = NSString(data: data, encoding: NSUTF8StringEncoding) {
-                                self.showAlert(String(message))
-                            }
-                            else {
-                                self.showAlert("Sorry, things aren't working right now.")
-                            }
-                        }
-                        else {
-                            self.showAlert("Sorry, our computers aren't working. Please try again at a later time.ß")
-                        }
+                        self.showAlert("Sorry, we could not connect to circleblvd.org. Please try again later.")
                     }
-                }
-                else {
-                    self.showAlert("Sorry, we could not connect to circleblvd.org. Please try again later.")
                 }
             })
             dataTask.resume()
