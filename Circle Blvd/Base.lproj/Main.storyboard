@@ -373,7 +373,7 @@
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="WAg-R9-5hB">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="WAg-R9-5hB">
                                                 <rect key="frame" x="8" y="170" width="584" height="274"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -386,6 +386,8 @@
                                         </subviews>
                                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                         <constraints>
+                                            <constraint firstItem="WAg-R9-5hB" firstAttribute="leading" secondItem="w9l-6J-8Ep" secondAttribute="leading" constant="8" id="0xT-bR-qjP"/>
+                                            <constraint firstAttribute="trailing" secondItem="WAg-R9-5hB" secondAttribute="trailing" constant="8" id="AVe-Wi-IIo"/>
                                             <constraint firstItem="9c8-ed-zay" firstAttribute="leading" secondItem="w9l-6J-8Ep" secondAttribute="leading" constant="8" id="Bej-f2-fxF"/>
                                             <constraint firstAttribute="trailing" secondItem="9c8-ed-zay" secondAttribute="trailing" constant="8" id="gSq-PU-mzx"/>
                                             <constraint firstAttribute="trailing" secondItem="mCJ-w8-mkn" secondAttribute="trailing" constant="8" id="wFO-qb-xdl"/>
