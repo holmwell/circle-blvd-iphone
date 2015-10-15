@@ -274,8 +274,10 @@ class CircleView: UITableView,
         var firstTask: AnyObject? = NSDictionary()
         
         for (id, task) in jsonDict {
-            if (task["isFirstStory"] as! Int == 1) {
-                firstTask = task
+            if let isFirstStory = task["isFirstStory"] as? Int {
+                if (isFirstStory == 1) {
+                    firstTask = task
+                }
             }
         }
         
