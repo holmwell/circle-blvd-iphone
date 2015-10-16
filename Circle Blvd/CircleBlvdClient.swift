@@ -34,7 +34,11 @@ class CircleBlvdClient: SessionViewProtocol {
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         
-        let bodyStr:String = "email=" + email + "&password=" + password
+        let encodedEmail = email.stringByAddingPercentEncodingWithAllowedCharacters(.URLPathAllowedCharacterSet())!
+        
+        let encodedPassword = password.stringByAddingPercentEncodingWithAllowedCharacters(.URLPathAllowedCharacterSet())!
+        
+        let bodyStr:String = "email=" + encodedEmail + "&password=" + encodedPassword
         request.HTTPBody = bodyStr.dataUsingEncoding(NSUTF8StringEncoding)
         
         return request
